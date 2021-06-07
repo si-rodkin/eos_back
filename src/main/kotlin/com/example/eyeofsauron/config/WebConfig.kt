@@ -1,0 +1,19 @@
+package com.example.eyeofsauron.config
+
+import org.springframework.context.annotation.Configuration
+import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.EnableWebMvc
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+
+/**
+ * Конфиг гасит проблемы с CORS
+ * @author rodkinsi
+ */
+@Configuration
+@EnableWebMvc
+class WebConfig : WebMvcConfigurer {
+    override fun addCorsMappings(registry: CorsRegistry) {
+        registry.addMapping("/**")
+            .allowedMethods("GET", "POST", "PUT", "DELETE")
+    }
+}

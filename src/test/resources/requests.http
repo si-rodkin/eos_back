@@ -1,0 +1,21 @@
+###
+GET http://localhost:8080/api/devices
+
+###
+POST http://localhost:8080/api/devices
+Content-Type: application/json
+
+{
+  "imei": "12347",
+  "name": "Device 3",
+  "phone": "+79008006052"
+}
+
+###
+PUT http://localhost:8080/api/devices
+Content-Type: application/json
+
+{
+  "name": "Device 3!",
+  "phone": "+79008006052"
+}
