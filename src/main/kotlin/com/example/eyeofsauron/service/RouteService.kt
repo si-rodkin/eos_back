@@ -10,17 +10,17 @@ import org.springframework.stereotype.Service
  */
 @Service
 class RouteService(private val repository: RouteRepository) {
-    fun getAllRoutes(): List<Route> = repository.findAll()
+    fun getAll(): List<Route> = repository.findAll()
 
-    fun getRouteById(id: Long) = repository.findById(id)
+    fun getById(id: Long) = repository.findById(id)
 
-    fun getObjectRoutes(objectId: Long) = repository.findByGuardedObjectId(objectId)
+    fun get(securedFacilityId: Long) = repository.findBySecuredFacilityId(securedFacilityId)
 
-    fun createRoute(route: Route) = repository.save(route)
+    fun create(route: Route) = repository.save(route)
 
-    fun updateRoute(route: Route) = repository.save(route)
+    fun update(route: Route) = repository.save(route)
 
     fun delete(route: Route) = repository.delete(route)
 
-    fun deleteRouteById(id: Long) = repository.deleteById(id)
+    fun deleteById(id: Long) = repository.deleteById(id)
 }

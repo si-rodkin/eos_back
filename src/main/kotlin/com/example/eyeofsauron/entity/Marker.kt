@@ -7,17 +7,16 @@ import javax.persistence.*
  * @author rodkinsi
  */
 @Entity
-@Table(name = "markers")
 data class Marker(
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "markers_id_seq")
-    @SequenceGenerator(name = "markers_id_seq", sequenceName = "markers_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "marker_id_seq")
+    @SequenceGenerator(name = "marker_id_seq", sequenceName = "marker_id_seq", allocationSize = 1)
     val id: Long,
 
     val name: String?,
 
     val rfid: String,
 
-    @OneToOne
+    @ManyToOne
     val route: Route?
 )

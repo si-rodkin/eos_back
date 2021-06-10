@@ -10,17 +10,17 @@ import org.springframework.stereotype.Service
  */
 @Service
 class MarkerService(private val repository: MarkerRepository) {
-    fun getAllMarkers(): List<Marker> = repository.findAll()
+    fun getAll(): List<Marker> = repository.findAll()
 
-    fun getMarkerById(id: Long) = repository.findById(id)
+    fun getById(id: Long) = repository.findById(id)
 
     fun getFreeOrRouteMarkers(routeId: Long) = repository.findByRouteIdOrFree(routeId)
 
-    fun createMarker(marker: Marker) = repository.save(marker)
+    fun create(marker: Marker) = repository.save(marker)
 
-    fun updateMarker(marker: Marker) = repository.save(marker)
+    fun update(marker: Marker) = repository.save(marker)
 
     fun delete(marker: Marker) = repository.delete(marker)
 
-    fun deleteMarkerById(id: Long) = repository.deleteById(id)
+    fun deleteById(id: Long) = repository.deleteById(id)
 }

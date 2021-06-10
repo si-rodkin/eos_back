@@ -11,7 +11,6 @@ import javax.persistence.Table
  * @author rodkinsi
  */
 @Entity
-@Table(name = "statistics")
 data class Commit(
     @Id
     val id: Long,
@@ -20,7 +19,7 @@ data class Commit(
     val checkPoint: CheckPoint,
 
     @ManyToOne
-    val device: Device,
+    val markerReader: MarkerReader,
 
     @ManyToOne
     val commit: Commit,

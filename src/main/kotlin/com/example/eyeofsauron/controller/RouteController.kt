@@ -10,21 +10,26 @@ import org.springframework.web.bind.annotation.*
  * @author rodkinsi
  */
 @RestController
+@RequestMapping(RouteController.uri)
 class RouteController(private val service: RouteService) {
-    @GetMapping("/api/guarded-objects/{objectId}/guard-routes")
-    fun getAllObjectRoutes(@PathVariable objectId: Long) = service.getObjectRoutes(objectId)
+    @GetMapping("/by-secured-facility/{securedFacilityId}")
+    fun getAll(@PathVariable securedFacilityId: Long) = service.get(securedFacilityId)
 
-    @GetMapping("/api/guard-routes/{id}")
-    fun getRoute(@PathVariable id: Long) = service.getRouteById(id)
+    @GetMapping("/{id}")
+    fun get(@PathVariable id: Long) = service.getById(id)
 
-    @PostMapping("/api/guard-routes")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createRoute(@RequestBody route: Route) = service.createRoute(route)
+    fun create(@RequestBody route: Route) = service.create(route)
 
-    @PutMapping("/api/guard-routes/{id}")
-    fun updateRoute(@RequestBody route: Route) = service.updateRoute(route)
+    @PutMapping("/{id}")
+    fun update(@RequestBody route: Route) = service.update(route)
 
-    @DeleteMapping("/api/guard-routes/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteRoute(@PathVariable id: Long) = service.deleteRouteById(id)
+    fun delete(@PathVariable id: Long) = service.deleteById(id)
+
+    companion object {
+        const val uri = "/api/routes"
+    }
 }

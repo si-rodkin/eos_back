@@ -65,7 +65,7 @@ liquibase {
             "changeLogFile" to "src/main/resources/db/changelog/changelog.sql",
             "url" to "jdbc:postgresql://localhost:5432/suro_dev_db",
             "username" to "postgres",
-            "password" to "developer!"
+            "password" to "879587321rgk"
         )
     }
 }

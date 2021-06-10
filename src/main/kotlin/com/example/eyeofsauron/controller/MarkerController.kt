@@ -13,23 +13,23 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping(MarkerController.uri)
 class MarkerController(private val service: MarkerService) {
     @GetMapping
-    fun getAllMarkers() = service.getAllMarkers()
+    fun getAll() = service.getAll()
 
     @GetMapping("/{id}")
-    fun getMarker(@PathVariable id: Long) = service.getMarkerById(id)
+    fun get(@PathVariable id: Long) = service.getById(id)
 
     @GetMapping("/free-or/{id}")
     fun getFreeOrRouteMarkers(@PathVariable id: Long): List<Marker> = service.getFreeOrRouteMarkers(id)
 
     @PostMapping
-    fun createMarker(@RequestBody marker: Marker) = service.createMarker(marker)
+    fun create(@RequestBody marker: Marker) = service.create(marker)
 
     @PutMapping("/{id}")
-    fun updateMarker(@RequestBody marker: Marker) = service.updateMarker(marker)
+    fun update(@RequestBody marker: Marker) = service.update(marker)
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteMarker(@PathVariable id: Long) = service.deleteMarkerById(id)
+    fun delete(@PathVariable id: Long) = service.deleteById(id)
 
     companion object {
         const val uri = "/api/markers"

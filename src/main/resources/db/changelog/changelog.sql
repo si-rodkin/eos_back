@@ -29,8 +29,71 @@ comment
 on column employee.lead_id is 'Идентификатор руководителя сотрудника';
 --rollback drop table employee;
 
+--changeset rodkinsi:feature/secured_facility_table_creation
+--Комментарий: Добавление таблицы охраняемых объектов
+create table secured_facility
+(
+    id   bigserial primary key not null,
+    name varchar(64)           not null unique,
+    itn  varchar(12)           not null unique
+);
+comment
+    on table secured_facility is 'Таблица охраняемых (режимных) объектов';
+comment
+    on column secured_facility.name is 'Название охраняемого (режимного) объекта';
+comment
+    on column secured_facility.itn is 'Индивидуальный номер налогоплательщика';
+--rollback drop table secured_facility;
+
+--changeset rodkinsi:feature/route_creation
+--Комментарий: Добавление таблицы маршрутов охраны
+create table route
+(
+    id                  bigserial primary key not null,
+    name                varchar(128) not null unique,
+    secured_facility_id bigint references secured_facility
+);
+comment
+    on table route is 'Таблица маршрутов в рамках охраняемого (режимного) объекта';
+comment
+    on column route.name is 'Название маршрута охраняемого (режимного) объекта';
+comment
+    on column route.secured_facility_id is 'Идентификатор объекта на котором расположен маршрут';
+
+--changeset rodkinsi:feature/rout_bypass
+create table route_bypass
+(
+    id                  bigserial primary key not null,
+    name                varchar(128) not null unique,
+    bypass_time         time,
+    notify              boolean,
+    route_id            bigint references route
+);
+comment
+    on table route_bypass is 'Таблица обхода выбранных маршрутов';
+comment
+    on column route_bypass.name is 'Название обхода выбранного маршрута';
+comment
+    on column route_bypass.bypass_time is 'Время начала обхода выбранного маршрута';
+comment
+    on column route_bypass.notify is 'Оповещение';
+comment
+    on column route.id is 'Идентификатор объекта на котором расположен маршрут';
+--rollback drop table route_bypass
+
+--changeset rodkinsi:feature/marker_table_creation
+--Комментарий: Добавление таблицы маркеров
+create table marker
+(
+    id       bigserial primary key not null,
+    name     varchar(64),
+    rfid     varchar(10) unique,
+    route_id bigint references route
+);
+--rollback drop table marker;
+
 --changeset rodkinsi:feature/marker_reader_table_creation
---Комментарий: Дабвление таблицы считывателей меток
+--Комментарий: Добавление таблицы считывателей меток
 create table marker_reader
 (
     id    bigserial primary key not null,
@@ -48,78 +111,49 @@ comment
 on column marker_reader.phone is 'Номер сим-карты установленной в считывающее устройство';
 --rollback drop table marker_reader;
 
---changeset rodkinsi:feature/secure_facility_table_creation
---Комментарий: Добавление таблицы охраняемых объектов
-create table secure_facility
-(
-    id   bigserial primary key not null,
-    name varchar(64)           not null unique,
-    itn  varchar(12)           not null unique
-);
-comment
-on table secure_facility is 'Таблица охраняемых (режимных) объектов';
-comment
-on column secure_facility.name is 'Название охраняемого (режимного) объекта';
-comment
-on column secure_facility.itn is 'Индивидуальный номер налогоплательщика';
---rollback drop table secure_facility;
-
---changeset rodkinsi:feature/secure_facility_route_creation
---Комментарий: Добавление таблицы маршрутов охраны
-create table secure_facility_route
-(
-    id        bigserial primary key not null,
-    name      varchar(128)          not null unique,
-    object_id bigint references secure_facility
-);
-comment
-on table secure_facility_route is 'Таблица маршрутов в рамках охраняемого (режимного) объекта';
-comment
-on column secure_facility_route.name is 'Название маршрута охраняемого (режимного) объекта';
-comment
-on column secure_facility_route.object_id is 'Идентификатор объекта на котором расположен маршрут';
---Комментарий: Доваление таблицы линковки устройств и маршрутов охраны
-create table marker_reader_to_secure_facility
-(
-    id        bigserial primary key not null,
-    device_id bigint references marker_reader,
-    route_id  bigint references secure_facility_route
-);
-comment
-on table marker_reader_to_secure_facility is 'Таблица связи маршрута охраняемого объекта и назначенного на этот маршрут считывателя маркеров';
---rollback drop table marker_reader_to_secure_facility;
---rollback drop table secure_facility_route;
-
---changeset rodkinsi:feature/marker_table_creation
---Комментарий: Добавление таблицы маркеров
-create table marker
-(
-    id       bigserial primary key not null,
-    name     varchar(64),
-    rfid     varchar(10) unique,
-    route_id bigint references secure_facility_route
-);
---rollback drop table marker;
-
 --changeset rodkinsi:feature/check_point_table_creation
 --Комментарий: Добавление таблицы контрольных точек
 create table check_point
 (
-    id             bigserial primary key not null,
-    name           varchar(64),
-    days           integer,
-    start_time     timestamp             not null,
-    end_time       timestamp,
-    time_allowance integer,
-    late_time      integer,
-    marker_id      bigint references marker,
-    device_id      bigint references marker_reader
+    id                  bigserial primary key not null,
+    name                varchar(64),
+    days                integer,
+    start_time          timestamp not null,
+    end_time            timestamp,
+    time_allowance      integer,
+    late_time           integer,
+    marker_id           bigint references marker,
+    marker_reader_id    bigint references marker_reader
 );
 --rollback drop table check_point;
 
--- --changeset rodkinsi:statistics
+--Комментарий: Добаление таблицы маршрута охраны и считывающих устройств
+create table route_to_marker_reader
+(
+    id               bigserial primary key not null,
+    route_id         bigint references route,
+    marker_reader_id bigint references marker_reader
+);
+comment
+    on table route_to_marker_reader is 'Таблица связи cчитывателя маркеров и маршрута охраняемого объекта';
+--rollback drop table route_to_marker_reader;
+--rollback drop table route;
+
+--Комментарий: Добавление таблицы линковски считывающих устройств и контрольных точек
+create table marker_reader_to_check_point
+(
+    id               bigserial primary key not null,
+    marker_reader_id bigint references marker_reader,
+    check_point_id   bigint references check_point
+);
+comment
+    on table marker_reader_to_check_point is 'Таблица связи маршрута охраняемого объекта и контрольной точки';
+--rollback drop table marker_reader_to_check_point;
+--rollback drop table marker_reader;
+
+-- --changeset rodkinsi:statistic
 -- --Комментарий: Добавление таблицы статистики
--- create table statistics
+-- create table statistic
 -- (
 --     id        bigserial primary key not null,
 --     device_id bigint references devices,
@@ -128,3 +162,8 @@ create table check_point
 -- --         TODO:    round = models.ForeignKey(Round, on_delete=models.CASCADE)
 -- );
 -- --rollback drop table statistics;
+
+--changeset rodkinsi:feature/route_bypass_creation
+--Комментарий: Добавление таблицы маршрутов охраны
+
+

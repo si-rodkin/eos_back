@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service
  */
 @Service
 class CheckPointService(private val repository: CheckPointRepository) {
-    fun getAllCheckPoints(): List<CheckPoint> = repository.findAll()
+    fun getAll(): List<CheckPoint> = repository.findAll()
 
-    fun getCheckPointById(id: Long) = repository.findById(id)
+    fun getById(id: Long) = repository.findById(id)
 
-    fun createCheckPoint(checkPoint: CheckPoint) = repository.save(checkPoint)
+    fun create(checkPoint: CheckPoint) = repository.save(checkPoint)
 
-    fun updateCheckPoint(checkPoint: CheckPoint) = repository.save(checkPoint)
+    fun update(checkPoint: CheckPoint) = repository.save(checkPoint)
 
     fun delete(checkPoint: CheckPoint) = repository.delete(checkPoint)
 
-    fun deleteCheckPointById(id: Long) = repository.deleteById(id)
+    fun deleteById(id: Long) = repository.deleteById(id)
 }
