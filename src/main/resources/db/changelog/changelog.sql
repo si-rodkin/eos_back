@@ -128,27 +128,27 @@ create table check_point
 --rollback drop table check_point;
 
 --Комментарий: Добаление таблицы маршрута охраны и считывающих устройств
-create table route_to_marker_reader
+create table route_marker_reader
 (
     id               bigserial primary key not null,
     route_id         bigint references route,
     marker_reader_id bigint references marker_reader
 );
 comment
-    on table route_to_marker_reader is 'Таблица связи cчитывателя маркеров и маршрута охраняемого объекта';
---rollback drop table route_to_marker_reader;
+    on table route_marker_reader is 'Таблица связи cчитывателя маркеров и маршрута охраняемого объекта';
+--rollback drop table route_marker_reader;
 --rollback drop table route;
 
 --Комментарий: Добавление таблицы линковски считывающих устройств и контрольных точек
-create table marker_reader_to_check_point
+create table marker_reader_check_point
 (
     id               bigserial primary key not null,
     marker_reader_id bigint references marker_reader,
     check_point_id   bigint references check_point
 );
 comment
-    on table marker_reader_to_check_point is 'Таблица связи маршрута охраняемого объекта и контрольной точки';
---rollback drop table marker_reader_to_check_point;
+    on table marker_reader_check_point is 'Таблица связи маршрута охраняемого объекта и контрольной точки';
+--rollback drop table marker_reader_check_point;
 --rollback drop table marker_reader;
 
 -- --changeset rodkinsi:statistic
