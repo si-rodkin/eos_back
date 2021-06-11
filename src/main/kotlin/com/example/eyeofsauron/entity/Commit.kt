@@ -22,7 +22,7 @@ data class Commit(
     val markerReader: MarkerReader,
 
     @ManyToOne
-    val commit: Commit,
+    val commit: Commit?,
 
     val date: LocalDateTime
 )

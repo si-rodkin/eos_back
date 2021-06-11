@@ -18,6 +18,6 @@ data class Route(
     @ManyToOne
     val securedFacility: SecuredFacility,
 
-    @ManyToMany
-    val markerReader: List<MarkerReader>
+    @ManyToMany(mappedBy = "route_marker_reader")
+    val markerReaders: List<MarkerReader>
 )

@@ -15,6 +15,6 @@ data class MarkerReader(
 
     val phone: String,
 
-    @ManyToMany
-    val checkPoint: List<CheckPoint>
+    @ManyToMany(mappedBy = "marker_reader_check_point")
+    val checkPoints: List<CheckPoint>
 )
