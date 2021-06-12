@@ -5,6 +5,10 @@ import com.example.eyeofsauron.service.RouteBypassService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
+/**
+ * Контроллер для работы с обходами маршрутов
+ * @author rodkinsi
+ */
 @RestController
 @RequestMapping(RouteBypassController.uri)
 class RouteBypassController(private val service: RouteBypassService) {

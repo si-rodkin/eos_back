@@ -5,6 +5,10 @@ import com.example.eyeofsauron.service.CheckPointService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
+/**
+ * Контроллер для работы с контрольными точками
+ * @author rodkinsi
+ */
 @RestController
 @RequestMapping(CheckPointController.uri)
 class CheckPointController(private val service: CheckPointService) {

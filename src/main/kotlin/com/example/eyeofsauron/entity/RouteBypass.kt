@@ -1,8 +1,12 @@
 package com.example.eyeofsauron.entity
 
-import java.time.LocalDateTime
+import java.time.LocalTime
 import javax.persistence.*
 
+/**
+ * Модель обхода по маршруту
+ * @author rodkinsi
+ */
 @Entity
 data class RouteBypass(
     @Id
@@ -12,7 +16,9 @@ data class RouteBypass(
 
     val name: String,
 
-    val bypassTime: LocalDateTime,
+    val bypassTime: LocalTime,
+
+    val day: Int,
 
     val notify: Boolean,
 

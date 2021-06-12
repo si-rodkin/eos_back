@@ -1,5 +1,6 @@
 package com.example.eyeofsauron.controller
 
+import com.example.eyeofsauron.service.StatisticService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -8,18 +9,18 @@ import org.springframework.web.bind.annotation.RestController
  * Контроллер для работы с событиями считывания меток устройствами
  */
 @RestController
-@RequestMapping(CommitController.uri)
-class CommitController {
+@RequestMapping(StatisticController.uri)
+class StatisticController(private val service: StatisticService) {
     @GetMapping
-    fun getAll() = null // TODO
+    fun getAll() = service.getAll()
 
     @GetMapping("/planned")
-    fun getPlanned() = null // TODO
+    fun getPlanned() = service.getPlanned()
 
     @GetMapping("/unplanned")
-    fun getUnplanned() = null // TODO
+    fun getUnplanned() = service.getUnplanned()
 
     companion object {
-        const val uri = "/api/commits"
+        const val uri = "/api/statistic"
     }
 }

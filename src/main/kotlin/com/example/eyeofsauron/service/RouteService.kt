@@ -14,7 +14,7 @@ class RouteService(private val repository: RouteRepository) {
 
     fun getById(id: Long) = repository.findById(id)
 
-    fun get(securedFacilityId: Long) = repository.findBySecuredFacilityId(securedFacilityId)
+    fun getBySecuredFacilityId(securedFacilityId: Long) = repository.findBySecuredFacilityId(securedFacilityId)
 
     fun create(route: Route) = repository.save(route)
 

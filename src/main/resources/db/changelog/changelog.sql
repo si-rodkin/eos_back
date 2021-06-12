@@ -66,6 +66,7 @@ create table route_bypass
     id                  bigserial primary key not null,
     name                varchar(128) not null unique,
     bypass_time         time,
+    day                 integer,
     notify              boolean,
     route_id            bigint references route
 );
@@ -117,11 +118,10 @@ create table check_point
 (
     id                  bigserial primary key not null,
     name                varchar(64),
-    days                integer,
-    start_time          timestamp not null,
-    end_time            timestamp,
-    time_allowance      integer,
+    read_time           timestamp not null,
+    allowance_time      integer,
     late_time           integer,
+    route_bypass_id     bigint references route,
     marker_id           bigint references marker,
     marker_reader_id    bigint references marker_reader
 );
@@ -139,29 +139,17 @@ comment
 --rollback drop table route_marker_reader;
 --rollback drop table route;
 
---Комментарий: Добавление таблицы линковски считывающих устройств и контрольных точек
-create table marker_reader_check_point
+--changeset rodkinsi:statistic
+--Комментарий: Добавление таблицы статистики
+create table statistics
 (
     id               bigserial primary key not null,
+    date             timestamp,
+    marker_id        bigint references marker,
     marker_reader_id bigint references marker_reader,
     check_point_id   bigint references check_point
 );
-comment
-    on table marker_reader_check_point is 'Таблица связи маршрута охраняемого объекта и контрольной точки';
---rollback drop table marker_reader_check_point;
---rollback drop table marker_reader;
-
--- --changeset rodkinsi:statistic
--- --Комментарий: Добавление таблицы статистики
--- create table statistic
--- (
---     id        bigserial primary key not null,
---     device_id bigint references devices,
---     marker_id bigint references markers,
---     date      timestamp
--- --         TODO:    round = models.ForeignKey(Round, on_delete=models.CASCADE)
--- );
--- --rollback drop table statistics;
+--rollback drop table statistics;
 
 --changeset rodkinsi:feature/route_bypass_creation
 --Комментарий: Добавление таблицы маршрутов охраны

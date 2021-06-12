@@ -1,6 +1,6 @@
 package com.example.eyeofsauron.entity
 
-import java.time.LocalDateTime
+import java.time.LocalTime
 import java.util.*
 import javax.persistence.*
 
@@ -17,18 +17,18 @@ data class CheckPoint(
 
     val name: String,
 
-    val readTime: LocalDateTime,
+    val readTime: LocalTime,
 
-    val allowanceTime: LocalDateTime,
+    val allowanceTime: LocalTime,
 
-    val bypassDate: Date,
+    val lateTime: LocalTime,
 
     @ManyToOne
-    val route: Route,
+    val routeBypass: RouteBypass,
 
     @ManyToOne
     val marker: Marker,
 
-    @ManyToMany
-    val markerReader: List<MarkerReader>
+    @OneToOne
+    val markerReader: MarkerReader
 )

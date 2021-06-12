@@ -2,6 +2,10 @@ package com.example.eyeofsauron.entity
 
 import javax.persistence.*
 
+/**
+ * Модель считывателя маркеров
+ * @author rodkinsi
+ */
 @Entity
 data class MarkerReader(
     @Id
@@ -15,6 +19,6 @@ data class MarkerReader(
 
     val phone: String,
 
-    @ManyToMany(mappedBy = "marker_reader_check_point")
+    @ManyToMany
     val checkPoints: List<CheckPoint>
 )

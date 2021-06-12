@@ -4,6 +4,10 @@ import com.example.eyeofsauron.entity.RouteBypass
 import com.example.eyeofsauron.repository.RouteBypassRepository
 import org.springframework.stereotype.Service
 
+/**
+ * Сервис для работы с обходами маршрутов
+ * @author rodkinsi
+ */
 @Service
 class RouteBypassService(private val repository: RouteBypassRepository) {
     fun getAll(): List<RouteBypass> = repository.findAll()
