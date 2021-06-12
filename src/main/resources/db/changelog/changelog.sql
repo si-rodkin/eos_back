@@ -151,7 +151,3 @@ create table statistics
 );
 --rollback drop table statistics;
 
---changeset rodkinsi:feature/route_bypass_creation
---Комментарий: Добавление таблицы маршрутов охраны
-
-
