@@ -1,5 +1,6 @@
 package com.example.eyeofsauron.entity
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalTime
 import javax.persistence.*
 
@@ -16,6 +17,7 @@ data class RouteBypass(
 
     val name: String,
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     val bypassTime: LocalTime,
 
     val day: Int,
@@ -23,5 +25,8 @@ data class RouteBypass(
     val notify: Boolean,
 
     @ManyToOne
-    val route: Route
+    val route: Route,
+
+    @OneToOne
+    val markerReader: MarkerReader
 )

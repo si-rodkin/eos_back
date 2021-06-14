@@ -9,7 +9,7 @@ import javax.persistence.*
 @Entity
 data class MarkerReader(
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "markers_reader_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "marker_reader_id_seq")
     @SequenceGenerator(name = "marker_reader_id_seq", sequenceName = "marker_reader_id_seq", allocationSize = 1)
     val id: Long,
 
@@ -20,5 +20,6 @@ data class MarkerReader(
     val phone: String,
 
     @ManyToMany
-    val checkPoints: List<CheckPoint>
+    @JoinTable(name = "route_marker_reader", inverseJoinColumns = [JoinColumn(name = "route_id")])
+    val routes: List<Route>
 )

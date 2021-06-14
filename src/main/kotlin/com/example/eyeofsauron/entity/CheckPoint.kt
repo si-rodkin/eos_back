@@ -1,7 +1,7 @@
 package com.example.eyeofsauron.entity
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalTime
-import java.util.*
 import javax.persistence.*
 
 /**
@@ -17,18 +17,16 @@ data class CheckPoint(
 
     val name: String,
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     val readTime: LocalTime,
 
-    val allowanceTime: LocalTime,
+    val allowanceTime: Int,
 
-    val lateTime: LocalTime,
+    val lateTime: LocalTime?,
 
     @ManyToOne
     val routeBypass: RouteBypass,
 
     @ManyToOne
     val marker: Marker,
-
-    @OneToOne
-    val markerReader: MarkerReader
 )

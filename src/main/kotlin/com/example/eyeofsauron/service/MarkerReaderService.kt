@@ -14,6 +14,8 @@ class MarkerReaderService(private val repository: MarkerReaderRepository) {
 
     fun getById(id: Long) = repository.findById(id)
 
+    fun getByImei(imei: String) = repository.findByImei(imei)
+
     fun create(markerReader: MarkerReader) = repository.save(markerReader)
 
     fun update(markerReader: MarkerReader) = repository.save(markerReader)

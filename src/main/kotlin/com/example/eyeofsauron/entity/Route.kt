@@ -18,9 +18,10 @@ data class Route(
     @ManyToOne
     val securedFacility: SecuredFacility,
 
-    @OneToMany(mappedBy = "route")
-    val markers: List<Marker>,
+    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "route")
+    val markers: List<Marker>
 
-    @ManyToMany
-    val markerReaders: List<MarkerReader>
+//    @ManyToMany
+//    @JoinTable(name = "route_marker_reader", inverseJoinColumns = [JoinColumn(name = "marker_reader_id")])
+//    val markerReaders: List<MarkerReader>
 )

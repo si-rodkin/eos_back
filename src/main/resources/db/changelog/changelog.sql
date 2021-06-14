@@ -59,39 +59,7 @@ comment
     on column route.name is 'Название маршрута охраняемого (режимного) объекта';
 comment
     on column route.secured_facility_id is 'Идентификатор объекта на котором расположен маршрут';
-
---changeset rodkinsi:feature/rout_bypass
-create table route_bypass
-(
-    id                  bigserial primary key not null,
-    name                varchar(128) not null unique,
-    bypass_time         time,
-    day                 integer,
-    notify              boolean,
-    route_id            bigint references route
-);
-comment
-    on table route_bypass is 'Таблица обхода выбранных маршрутов';
-comment
-    on column route_bypass.name is 'Название обхода выбранного маршрута';
-comment
-    on column route_bypass.bypass_time is 'Время начала обхода выбранного маршрута';
-comment
-    on column route_bypass.notify is 'Оповещение';
-comment
-    on column route.id is 'Идентификатор объекта на котором расположен маршрут';
---rollback drop table route_bypass
-
---changeset rodkinsi:feature/marker_table_creation
---Комментарий: Добавление таблицы маркеров
-create table marker
-(
-    id       bigserial primary key not null,
-    name     varchar(64),
-    rfid     varchar(10) unique,
-    route_id bigint references route
-);
---rollback drop table marker;
+--rollback drop table route;
 
 --changeset rodkinsi:feature/marker_reader_table_creation
 --Комментарий: Добавление таблицы считывателей меток
@@ -112,18 +80,51 @@ comment
 on column marker_reader.phone is 'Номер сим-карты установленной в считывающее устройство';
 --rollback drop table marker_reader;
 
+--changeset rodkinsi:feature/rout_bypass
+create table route_bypass
+(
+    id                  bigserial primary key not null,
+    name                varchar(128) not null unique,
+    bypass_time         time,
+    day                 integer,
+    notify              boolean,
+    route_id            bigint references route,
+    marker_reader_id    bigint references marker_reader
+);
+comment
+    on table route_bypass is 'Таблица обхода выбранных маршрутов';
+comment
+    on column route_bypass.name is 'Название обхода выбранного маршрута';
+comment
+    on column route_bypass.bypass_time is 'Время начала обхода выбранного маршрута';
+comment
+    on column route_bypass.notify is 'Оповещение';
+comment
+    on column route.id is 'Идентификатор объекта на котором расположен маршрут';
+--rollback drop table route_bypass;
+
+--changeset rodkinsi:feature/marker_table_creation
+--Комментарий: Добавление таблицы маркеров
+create table marker
+(
+    id       bigserial primary key not null,
+    name     varchar(64),
+    rfid     varchar(10) unique,
+    route_id bigint references route
+);
+--rollback drop table marker;
+
 --changeset rodkinsi:feature/check_point_table_creation
 --Комментарий: Добавление таблицы контрольных точек
 create table check_point
 (
     id                  bigserial primary key not null,
     name                varchar(64),
-    read_time           timestamp not null,
+    read_time           time not null,
     allowance_time      integer,
     late_time           integer,
-    route_bypass_id     bigint references route,
-    marker_id           bigint references marker,
-    marker_reader_id    bigint references marker_reader
+    route_bypass_id     bigint references route_bypass,
+    marker_id           bigint references marker
 );
 --rollback drop table check_point;
 
@@ -137,7 +138,6 @@ create table route_marker_reader
 comment
     on table route_marker_reader is 'Таблица связи cчитывателя маркеров и маршрута охраняемого объекта';
 --rollback drop table route_marker_reader;
---rollback drop table route;
 
 --changeset rodkinsi:statistic
 --Комментарий: Добавление таблицы статистики

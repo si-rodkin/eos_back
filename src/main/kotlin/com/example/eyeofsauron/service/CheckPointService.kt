@@ -14,6 +14,8 @@ class CheckPointService(private val repository: CheckPointRepository) {
 
     fun getById(id: Long) = repository.findById(id)
 
+    fun getByBypass(bypassIds: List<Long>) = repository.findByRouteBypass_IdIn(bypassIds)
+
     fun create(checkPoint: CheckPoint) = repository.save(checkPoint)
 
     fun update(checkPoint: CheckPoint) = repository.save(checkPoint)

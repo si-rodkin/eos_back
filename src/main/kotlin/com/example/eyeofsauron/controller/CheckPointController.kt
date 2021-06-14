@@ -18,6 +18,9 @@ class CheckPointController(private val service: CheckPointService) {
     @GetMapping("/{id}")
     fun get(@PathVariable id: Long) = service.getById(id)
 
+    @GetMapping("/by-routebypass/{id}")
+    fun getByBypass(@PathVariable id: Long) = service.getByBypass(listOf(id))
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@RequestBody checkPoint: CheckPoint) = service.create(checkPoint)

@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository
 interface MarkerRepository : JpaRepository<Marker, Long>, JpaSpecificationExecutor<Marker> {
     @Query(nativeQuery = true, value = "SELECT * FROM marker WHERE (:id > -1 AND route_id = :id) OR route_id is null")
     fun findByRouteIdOrFree(id: Long): List<Marker>
+
+    fun findByRfid(rfid: String): Marker
 }

@@ -63,9 +63,9 @@ liquibase {
     activities.register("main") {
         this.arguments = mapOf(
             "changeLogFile" to "src/main/resources/db/changelog/changelog.sql",
-            "url" to "jdbc:postgresql://localhost:5432/suro_dev_db",
-            "username" to "postgres",
-            "password" to "879587321rgk"
+            "url" to System.getenv("DATABASE_URL"),
+            "username" to System.getenv("DATABASE_USERNAME"),
+            "password" to System.getenv("DATABASE_PASSWORD")
         )
     }
 }

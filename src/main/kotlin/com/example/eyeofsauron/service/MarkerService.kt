@@ -16,6 +16,8 @@ class MarkerService(private val repository: MarkerRepository) {
 
     fun getFreeOrRouteMarkers(routeId: Long) = repository.findByRouteIdOrFree(routeId)
 
+    fun getByRfid(rfid: String) = repository.findByRfid(rfid)
+
     fun create(marker: Marker) = repository.save(marker)
 
     fun update(marker: Marker) = repository.save(marker)

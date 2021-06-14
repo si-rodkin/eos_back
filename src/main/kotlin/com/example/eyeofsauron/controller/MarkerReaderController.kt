@@ -30,6 +30,6 @@ class MarkerReaderController(private val service: MarkerReaderService) {
     fun delete(@PathVariable id: Long) = service.deleteById(id)
 
     companion object {
-        const val uri = "/api/marker_readers"
+        const val uri = "/api/marker-readers"
     }
 }

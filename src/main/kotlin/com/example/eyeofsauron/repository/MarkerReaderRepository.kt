@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.stereotype.Repository
 
 @Repository
-interface MarkerReaderRepository : JpaRepository<MarkerReader, Long>, JpaSpecificationExecutor<MarkerReader>
+interface MarkerReaderRepository : JpaRepository<MarkerReader, Long>, JpaSpecificationExecutor<MarkerReader> {
+    fun findByImei(imei: String): MarkerReader
+}

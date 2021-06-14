@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CheckPointRepository : JpaRepository<CheckPoint, Long>, JpaSpecificationExecutor<CheckPoint>
+interface CheckPointRepository : JpaRepository<CheckPoint, Long>, JpaSpecificationExecutor<CheckPoint> {
+    fun findByRouteBypass_IdIn(ids: List<Long>): List<CheckPoint>
+}

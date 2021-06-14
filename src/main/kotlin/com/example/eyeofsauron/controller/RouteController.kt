@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping(RouteController.uri)
 class RouteController(private val service: RouteService) {
+    @GetMapping
+    fun getAll() = service.getAll()
+
     @GetMapping("/by-secured-facility/{securedFacilityId}")
-    fun getAll(@PathVariable securedFacilityId: Long) = service.getBySecuredFacilityId(securedFacilityId)
+    fun getByObject(@PathVariable securedFacilityId: Long) = service.getBySecuredFacilityId(securedFacilityId)
 
     @GetMapping("/{id}")
     fun get(@PathVariable id: Long) = service.getById(id)
@@ -23,7 +26,9 @@ class RouteController(private val service: RouteService) {
     fun create(@RequestBody route: Route) = service.create(route)
 
     @PutMapping("/{id}")
-    fun update(@RequestBody route: Route) = service.update(route)
+    fun update(@RequestBody route: Route): Route {
+        return service.update(route)
+    }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
