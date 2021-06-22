@@ -1,21 +1,32 @@
 ###
-GET http://localhost:8080/api/devices
+GET http://localhost:8080/api/marker-readers
 
 ###
-POST http://localhost:8080/api/devices
+POST http://localhost:8080/api/marker-readers
 Content-Type: application/json
 
 {
   "imei": "12347",
   "name": "Device 3",
-  "phone": "+79008006052"
+  "phone": "+79008006052",
+  "routes": []
 }
 
 ###
-PUT http://localhost:8080/api/devices
+PUT http://localhost:8080/api/marker-reades
 Content-Type: application/json
 
 {
   "name": "Device 3!",
   "phone": "+79008006052"
 }
+
+###
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
