@@ -18,7 +18,11 @@ class RouteService(private val repository: RouteRepository) {
 
     fun create(route: Route) = repository.save(route)
 
-    fun update(route: Route) = repository.save(route)
+    fun update(route: Route) {
+        if(!repository.existsById(route.id))
+            throw(Exception("Record not found!"))
+        repository.save(route)
+    }
 
     fun delete(route: Route) = repository.delete(route)
 

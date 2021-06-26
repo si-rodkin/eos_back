@@ -51,11 +51,15 @@ class RouteBypassService(private val repository: RouteBypassRepository) {
         }
     }
 
-    fun create(routeBypassBypass: RouteBypass) = repository.save(routeBypassBypass)
+    fun create(routeBypass: RouteBypass) = repository.save(routeBypass)
 
-    fun update(routeBypassBypass: RouteBypass) = repository.save(routeBypassBypass)
+    fun update(routeBypass: RouteBypass) {
+        if(!repository.existsById(routeBypass.id))
+            throw(Exception("Record not found!"))
+        repository.save(routeBypass)
+    }
 
-    fun delete(routeBypassBypass: RouteBypass) = repository.delete(routeBypassBypass)
+    fun delete(routeBypass: RouteBypass) = repository.delete(routeBypass)
 
     fun deleteById(id: Long) = repository.deleteById(id)
 

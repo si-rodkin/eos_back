@@ -16,7 +16,7 @@ class CheckPointController(private val service: CheckPointService) {
     fun getAll() = service.getAll()
 
     @GetMapping("/{id}")
-    fun get(@PathVariable id: Long) = service.getById(id)
+    fun getById(@PathVariable id: Long) = service.getById(id)
 
     @GetMapping("/by-routebypass/{id}")
     fun getByBypass(@PathVariable id: Long) = service.getByBypass(listOf(id))
@@ -25,12 +25,12 @@ class CheckPointController(private val service: CheckPointService) {
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@RequestBody checkPoint: CheckPoint) = service.create(checkPoint)
 
-    @PutMapping("/{id}")
+    @PutMapping
     fun update(@RequestBody checkPoint: CheckPoint) = service.update(checkPoint)
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun delete(@PathVariable id: Long) = service.deleteById(id)
+    fun deleteById(@PathVariable id: Long) = service.deleteById(id)
 
     companion object {
         const val uri = "/api/check-points"

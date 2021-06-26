@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "mName1",
+    "rfid": "111111",
+    "route": {
+      "name": "rName1",
+      "securedFacility": {
+        "id": 1,
+        "name": "213e1",
+        "itn": "fsaf"
+      }
+    }
+  },
+  {
+    "id": 1,
+    "name": "mName1",
+    "rfid": "111111",
+    "route": {
+      "id": 1,
+      "name": "rName1",
+      "securedFacility": {
+        "id": 1,
+        "name": "213e1",
+        "itn": "fsaf"
+      }
+    }
+  }
+]
+

@@ -1,24 +1,24 @@
 ###
-GET http://localhost:8080/api/marker-readers
+GET http://localhost:8080/api/route-bypasses/1
 
 ###
-POST http://localhost:8080/api/marker-readers
+POST http://localhost:8080/api/secured-facilities
 Content-Type: application/json
 
 {
-  "imei": "12347",
-  "name": "Device 3",
-  "phone": "+79008006052",
-  "routes": []
+  "id": 88,
+  "name": "wtf",
+  "itn": "dude"
 }
 
 ###
-PUT http://localhost:8080/api/marker-reades
+PUT http://localhost:8080/api/secured-facilities
 Content-Type: application/json
 
 {
-  "name": "Device 3!",
-  "phone": "+79008006052"
+  "id": 999999,
+  "name": "11511",
+  "itn": "22wd2"
 }
 
 ###

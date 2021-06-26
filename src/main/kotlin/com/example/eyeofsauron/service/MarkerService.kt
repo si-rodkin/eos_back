@@ -20,7 +20,11 @@ class MarkerService(private val repository: MarkerRepository) {
 
     fun create(marker: Marker) = repository.save(marker)
 
-    fun update(marker: Marker) = repository.save(marker)
+    fun update(marker: Marker) {
+        if(!marker.id?.let { repository.existsById(it) }!!)
+            throw(Exception("Record not found!"))
+        repository.save(marker)
+    }
 
     fun delete(marker: Marker) = repository.delete(marker)
 

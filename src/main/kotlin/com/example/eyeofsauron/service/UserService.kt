@@ -31,7 +31,11 @@ class UserService(
         repository.save(user)
     }
 
-    fun updateUser(user: User) = repository.save(user)
+    fun updateUser(user: User) {
+        if(!repository.existsById(user.id))
+            throw(Exception("Record not found!"))
+        repository.save(user)
+    }
 
     fun delete(user: User) = repository.delete(user)
 

@@ -85,7 +85,8 @@ create table route_bypass
 (
     id                  bigserial primary key not null,
     name                varchar(128) not null unique,
-    bypass_time         time,
+    start_bypass_time   time,
+    end_bypass_time   time,
     day                 integer,
     notify              boolean,
     route_id            bigint references route,
@@ -96,7 +97,9 @@ comment
 comment
     on column route_bypass.name is 'Название обхода выбранного маршрута';
 comment
-    on column route_bypass.bypass_time is 'Время начала обхода выбранного маршрута';
+    on column route_bypass.start_bypass_time is 'Время начала обхода выбранного маршрута';
+comment
+    on column route_bypass.end_bypass_time is 'Время начала обхода выбранного маршрута';
 comment
     on column route_bypass.notify is 'Оповещение';
 comment
@@ -108,7 +111,7 @@ comment
 create table marker
 (
     id       bigserial primary key not null,
-    name     varchar(64),
+    name     varchar(64) not null unique,
     rfid     varchar(10) unique,
     route_id bigint references route
 );
@@ -119,7 +122,7 @@ create table marker
 create table check_point
 (
     id                  bigserial primary key not null,
-    name                varchar(64),
+    name                varchar(64) not null unique,
     read_time           time not null,
     allowance_time      integer,
     late_time           integer,

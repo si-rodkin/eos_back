@@ -16,7 +16,7 @@ class MarkerReaderController(private val service: MarkerReaderService) {
     fun getAll() = service.getAll()
 
     @GetMapping("/{id}")
-    fun get(@PathVariable id: Long) = service.getById(id)
+    fun getById(@PathVariable id: Long) = service.getById(id)
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -27,7 +27,7 @@ class MarkerReaderController(private val service: MarkerReaderService) {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun delete(@PathVariable id: Long) = service.deleteById(id)
+    fun deleteById(@PathVariable id: Long) = service.deleteById(id)
 
     companion object {
         const val uri = "/api/marker-readers"

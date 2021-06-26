@@ -16,7 +16,11 @@ class SecuredFacilityService(private val repository: SecuredFacilityRepository) 
 
     fun create(securedFacility: SecuredFacility) = repository.save(securedFacility)
 
-    fun update(securedFacility: SecuredFacility) = repository.save(securedFacility)
+    fun update(securedFacility: SecuredFacility) {
+        if(!repository.existsById(securedFacility.id))
+            throw(Exception("Record not found!"))
+        repository.save(securedFacility)
+    }
 
     fun delete(securedFacility: SecuredFacility) = repository.delete(securedFacility)
 

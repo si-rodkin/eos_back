@@ -16,18 +16,18 @@ class RouteBypassController(private val service: RouteBypassService) {
     fun getAll() = service.getAll()
 
     @GetMapping("/{id}")
-    fun get(@PathVariable id: Long) = service.getById(id)
+    fun getById(@PathVariable id: Long) = service.getById(id)
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@RequestBody routeBypass: RouteBypass) = service.create(routeBypass)
 
-    @PutMapping("/{id}")
+    @PutMapping
     fun update(@RequestBody routeBypass: RouteBypass) = service.update(routeBypass)
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun delete(@PathVariable id: Long) = service.deleteById(id)
+    fun deleteById(@PathVariable id: Long) = service.deleteById(id)
 
     companion object {
         const val uri = "/api/route-bypasses"

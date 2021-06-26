@@ -1,6 +1,7 @@
 package com.example.eyeofsauron.entity
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -18,12 +19,15 @@ data class Statistics(
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YYYY-MM-dd HH:mm:ss")
     val date: LocalDateTime,
 
+    //@JsonIgnoreProperties("rfid", "route")
     @ManyToOne
     val marker: Marker,
 
+    //@JsonIgnoreProperties("name", "imei", "phone", "routes")
     @ManyToOne
     val markerReader: MarkerReader,
 
+    //@JsonIgnoreProperties("name", "readTime", "allowanceTime", "lateTime", "routeBypass", "marker")
     @ManyToOne
     val checkPoint: CheckPoint
 )

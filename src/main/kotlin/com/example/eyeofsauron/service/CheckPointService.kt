@@ -18,7 +18,11 @@ class CheckPointService(private val repository: CheckPointRepository) {
 
     fun create(checkPoint: CheckPoint) = repository.save(checkPoint)
 
-    fun update(checkPoint: CheckPoint) = repository.save(checkPoint)
+    fun update(checkPoint: CheckPoint) {
+        if(!repository.existsById(checkPoint.id))
+            throw(Exception("Record not found!"))
+        repository.save(checkPoint)
+    }
 
     fun delete(checkPoint: CheckPoint) = repository.delete(checkPoint)
 

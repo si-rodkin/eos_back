@@ -18,7 +18,11 @@ class MarkerReaderService(private val repository: MarkerReaderRepository) {
 
     fun create(markerReader: MarkerReader) = repository.save(markerReader)
 
-    fun update(markerReader: MarkerReader) = repository.save(markerReader)
+    fun update(markerReader: MarkerReader) {
+        if(!repository.existsById(markerReader.id))
+            throw(Exception("Record not found!"))
+        repository.save(markerReader)
+    }
 
     fun delete(markerReader: MarkerReader) = repository.delete(markerReader)
 

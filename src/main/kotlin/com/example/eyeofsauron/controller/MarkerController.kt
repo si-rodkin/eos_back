@@ -16,14 +16,14 @@ class MarkerController(private val service: MarkerService) {
     fun getAll() = service.getAll()
 
     @GetMapping("/{id}")
-    fun get(@PathVariable id: Long) = service.getById(id)
+    fun getById(@PathVariable id: Long) = service.getById(id)
 
     @GetMapping("/free-or/{id}")
     fun getFreeOrRouteMarkers(@PathVariable id: Long): List<Marker> = service.getFreeOrRouteMarkers(id)
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun delete(@PathVariable id: Long) = service.deleteById(id)
+    fun deleteById(@PathVariable id: Long) = service.deleteById(id)
 
     companion object {
         const val uri = "/api/markers"
