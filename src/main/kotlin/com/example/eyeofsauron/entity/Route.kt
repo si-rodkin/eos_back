@@ -17,8 +17,4 @@ data class Route(
 
     @ManyToOne
     val securedFacility: SecuredFacility
-
-//    @ManyToMany
-//    @JoinTable(name = "route_marker_reader", inverseJoinColumns = [JoinColumn(name = "marker_reader_id")])
-//    val markerReaders: List<MarkerReader>
 )

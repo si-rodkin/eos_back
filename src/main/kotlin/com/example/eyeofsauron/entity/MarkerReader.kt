@@ -1,6 +1,5 @@
 package com.example.eyeofsauron.entity
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import javax.persistence.*
 
 /**
@@ -20,7 +19,6 @@ data class MarkerReader(
 
     val phone: String,
 
-    //@JsonIgnoreProperties("name", "securedFacility")
     @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
     @JoinTable(name = "route_marker_reader", inverseJoinColumns = [JoinColumn(name = "route_id")])
     val routes: List<Route>

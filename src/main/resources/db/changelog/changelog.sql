@@ -85,8 +85,7 @@ create table route_bypass
 (
     id                  bigserial primary key not null,
     name                varchar(128) not null unique,
-    start_bypass_time   time,
-    end_bypass_time   time,
+    bypass_time         time,
     day                 integer,
     notify              boolean,
     route_id            bigint references route,

@@ -1,12 +1,6 @@
 package com.example.eyeofsauron.entity
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer
 import java.time.LocalTime
 import javax.persistence.*
 
@@ -23,16 +17,8 @@ data class RouteBypass(
 
     val name: String,
 
-
-    @JsonSerialize(using = LocalTimeSerializer::class)
-    @JsonDeserialize(using = LocalTimeDeserializer::class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
-    val startBypassTime: LocalTime,
-
-    @JsonSerialize(using = LocalTimeSerializer::class)
-    @JsonDeserialize(using = LocalTimeDeserializer::class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
-    val endBypassTime: LocalTime,
+    val bypassTime: LocalTime,
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     val bypassEndTime: LocalTime,
@@ -41,11 +27,9 @@ data class RouteBypass(
 
     val notify: Boolean,
 
-    //@JsonIgnoreProperties("name", "securedFacility")
     @ManyToOne
     val route: Route,
 
-    //@JsonIgnoreProperties("name", "imei", "phone", "routes")
     @OneToOne
     val markerReader: MarkerReader
 )

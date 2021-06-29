@@ -1,7 +1,6 @@
 package com.example.eyeofsauron.entity
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.time.LocalTime
 import javax.persistence.*
 
@@ -25,11 +24,9 @@ data class CheckPoint(
 
     val lateTime: Int,
 
-    //@JsonIgnoreProperties("name", "startBypassTime", "endBypassTime", "day", "notify", "route", "markerReader")
     @ManyToOne
     val routeBypass: RouteBypass,
 
-    //@JsonIgnoreProperties("name", "rfid", "route")
     @ManyToOne
     val marker: Marker,
 )

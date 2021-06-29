@@ -1,13 +1,11 @@
 package com.example.eyeofsauron
 
-import com.example.eyeofsauron.controller.SecuredFacilityController
 import kotlin.Throws
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import java.lang.RuntimeException
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.junit.jupiter.api.Test
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
@@ -27,7 +25,6 @@ class TestUtil {
             return objectMapper.writeValueAsString(obj)
         }
 
-        @JvmStatic
         @Throws(JsonProcessingException::class)
         fun putJson(uri: String?, body: Any?): MockHttpServletRequestBuilder {
             return try {
@@ -41,7 +38,6 @@ class TestUtil {
             }
         }
 
-        @JvmStatic
         fun getAllTest(mockMvc: MockMvc, uri: String): ResultActions{
             return mockMvc.perform(MockMvcRequestBuilders.get(uri)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -49,7 +45,6 @@ class TestUtil {
                 .andDo(MockMvcResultHandlers.print())
         }
 
-        @JvmStatic
         fun getByIdTest(mockMvc: MockMvc, uri: String, id: String): ResultActions{
             return mockMvc.perform(MockMvcRequestBuilders.get("$uri/$id")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -57,7 +52,6 @@ class TestUtil {
                 .andDo(MockMvcResultHandlers.print())
         }
 
-        @JvmStatic
         fun createTest(mockMvc: MockMvc, uri: String, obj: Any): ResultActions{
             return mockMvc.perform(MockMvcRequestBuilders.post(uri)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -67,7 +61,6 @@ class TestUtil {
                 .andDo(MockMvcResultHandlers.print())
         }
 
-        @JvmStatic
         fun updateTest(mockMvc: MockMvc, uri: String, obj: Any): ResultActions{
             return mockMvc.perform(MockMvcRequestBuilders.put(uri)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -76,7 +69,6 @@ class TestUtil {
                 .andDo(MockMvcResultHandlers.print())
         }
 
-        @JvmStatic
         fun deleteByIdTest(mockMvc: MockMvc, uri: String, id: String): ResultActions{
             return mockMvc.perform(MockMvcRequestBuilders.delete("$uri/$id")
                 .contentType(MediaType.APPLICATION_JSON))
