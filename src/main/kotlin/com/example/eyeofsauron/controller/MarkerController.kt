@@ -21,6 +21,9 @@ class MarkerController(private val service: MarkerService) {
     @GetMapping("/free-or/{id}")
     fun getFreeOrRouteMarkers(@PathVariable id: Long): List<Marker> = service.getFreeOrRouteMarkers(id)
 
+    @PutMapping
+    fun update(@RequestBody marker: Marker) = service.update(marker)
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteById(@PathVariable id: Long) = service.deleteById(id)

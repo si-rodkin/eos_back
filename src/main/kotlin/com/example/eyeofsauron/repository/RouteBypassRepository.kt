@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface RouteBypassRepository : JpaRepository<RouteBypass, Long>, JpaSpecificationExecutor<RouteBypass> {
-//    fun findBy
+    fun findByRouteId(routeId: Long): List<RouteBypass>
 }

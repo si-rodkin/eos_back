@@ -30,3 +30,24 @@ Content-Type: application/json
   "password": "admin"
 }
 
+###
+POST http://localhost:8080/api/commits/111111111111111/RFID3/1/
+
+###
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "123456",
+  "firstName": "admin",
+  "lastName": "admin",
+  "personnelNumber": 0,
+  "position": "Админ",
+  "phone": "+79008007060",
+  "timezone": "Europe/Moscow",
+  "isLead": true
+}
+
+###
+GET http://localhost:8080/api/users/?uid=1

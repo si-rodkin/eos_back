@@ -3,6 +3,7 @@ package com.example.eyeofsauron.controller
 import com.example.eyeofsauron.entity.User
 import com.example.eyeofsauron.service.UserService
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
 /**
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping(UserController.uri)
 class UserController(private val service: UserService) {
     @GetMapping
-    fun getAllUsers() = service.getAllUsers()
+    fun getAllUsers(@RequestParam("uid", required = false) uid: Long?) = service.getAllUsers(uid)
 
     @GetMapping("/{id}")
     fun getUser(@PathVariable id: Long) = service.getUserById(id)

@@ -8,4 +8,8 @@ import org.springframework.stereotype.Repository
 @Repository
 interface UserRepository : JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
     fun findByUsername(username: String): User?
+
+    fun findAllByLeadingNotNull(): List<User>
+
+    fun findByLead(leadId: Long): List<User>
 }

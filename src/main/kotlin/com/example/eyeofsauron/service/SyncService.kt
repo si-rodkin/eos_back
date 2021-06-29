@@ -43,7 +43,8 @@ class SyncService(
 
         val roundBegins = bypasses.map {
             mapOf(
-                "start_time" to it.startBypassTime.format(DateTimeFormatter.ISO_LOCAL_TIME),
+                "start_time" to it.bypassTime.format(DateTimeFormatter.ISO_LOCAL_TIME),
+                "end_time" to it.bypassEndTime.format(DateTimeFormatter.ISO_LOCAL_TIME),
                 "notify" to it.notify
             )
         }

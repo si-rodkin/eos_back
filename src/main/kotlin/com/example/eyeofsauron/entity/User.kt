@@ -1,6 +1,6 @@
 package com.example.eyeofsauron.entity
 
-import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
 import javax.persistence.*
 
 /**
@@ -17,14 +17,18 @@ data class User(
 
     val username: String,
 
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     var password: String?,
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Transient
+    var passwordRepeat: String?,
 
     val firstName: String,
 
     val lastName: String,
 
-    val patrName: String,
+    val patrName: String?,
 
     val personnelNumber: Long,
 
@@ -32,11 +36,15 @@ data class User(
 
     val phone: String,
 
+    val email: String?,
+
     // TODO: заменить на Timezone? Как в бд хранить?
     val timezone: String,
 
-    val isLead: Boolean,
+    @Column(name = "isLead")
+    @JsonProperty("isLead")
+    val leading: Boolean,
 
-    @ManyToOne
-    val lead: User
+    @Column(name = "lead_id")
+    val lead: Long?
 )

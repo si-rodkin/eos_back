@@ -34,6 +34,9 @@ data class RouteBypass(
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     val endBypassTime: LocalTime,
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+    val bypassEndTime: LocalTime,
+
     val day: Int,
 
     val notify: Boolean,

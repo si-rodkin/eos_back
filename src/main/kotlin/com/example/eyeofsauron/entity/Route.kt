@@ -1,9 +1,5 @@
 package com.example.eyeofsauron.entity
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonManagedReference
-import com.fasterxml.jackson.annotation.JsonProperty
-import java.util.*
 import javax.persistence.*
 
 /**
@@ -20,7 +16,7 @@ data class Route(
     val name: String,
 
     @ManyToOne
-    val securedFacility: SecuredFacility,
+    val securedFacility: SecuredFacility
 
 //    @ManyToMany
 //    @JoinTable(name = "route_marker_reader", inverseJoinColumns = [JoinColumn(name = "marker_reader_id")])

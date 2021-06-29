@@ -18,6 +18,9 @@ class RouteBypassController(private val service: RouteBypassService) {
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Long) = service.getById(id)
 
+    @GetMapping("/by-route/{routeId}")
+    fun getByRoute(@PathVariable routeId: Long) = service.getByRoute(routeId)
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@RequestBody routeBypass: RouteBypass) = service.create(routeBypass)
