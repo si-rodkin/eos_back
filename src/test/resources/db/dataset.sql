@@ -14,11 +14,11 @@ insert into marker_reader(id, name, imei, phone) values
 select setval('marker_reader_id_seq', (select max(id) from marker_reader));
 
 insert into route_marker_reader(id, route_id, marker_reader_id) values
-(1, 1, 1), 
+(1, 1, 1),
 (2, 2, 2);
 select setval('route_marker_reader_id_seq', (select max(id) from route_marker_reader));
 
-insert into route_bypass(id, name, start_bypass_time, end_bypass_time, day, notify, route_id, marker_reader_id) values
+insert into route_bypass(id, name, bypass_time, bypass_end_time, day, notify, route_id, marker_reader_id) values
 (1, 'name1', '11:11', '22:22', 1, false, 1, 1),
 (2, 'name2', '10:10', '11:11', 2, true, 2, 2);
 select setval('route_bypass_id_seq', (select max(id) from route_bypass));
