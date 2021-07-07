@@ -14,5 +14,8 @@ data class SecuredFacility(
 
     val name: String,
 
-    val itn: String
+    val itn: String,
+
+    @ManyToOne
+    var owner: Employee
 )

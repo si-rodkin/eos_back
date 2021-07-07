@@ -5,11 +5,13 @@ import com.example.eyeofsauron.EyeOfSauronApplication
 import com.example.eyeofsauron.IntegrationTestBase
 import com.example.eyeofsauron.TestUtil
 import com.example.eyeofsauron.TestUtil.Companion.objectToJson
+import com.example.eyeofsauron.entity.Employee
 import com.example.eyeofsauron.entity.SecuredFacility
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
@@ -19,11 +21,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import kotlin.jvm.Throws
 
 @AutoConfigureMockMvc
-class SecuredFacilityControllerTest: IntegrationTestBase() {
+internal  class SecuredFacilityControllerTest: IntegrationTestBase() {
     var uri = SecuredFacilityController.uri
 
     @Autowired
     lateinit var mockMvc: MockMvc
+
+    @Autowired
+    lateinit var employeeController: EmployeeController
 
     @Test
     fun getAll() {
@@ -39,7 +44,8 @@ class SecuredFacilityControllerTest: IntegrationTestBase() {
 
     @Test
     fun create() {
-        val securedFacility = SecuredFacility(99999, "createName3", "createItn3")
+        val employee: Employee = employeeController.getById(1).get()
+        val securedFacility = SecuredFacility(99999, "createName3", "createItn3", employee)
         TestUtil.createTest(mockMvc, uri, securedFacility)
             .andExpect(jsonPath("$.name").value(securedFacility.name))
             .andExpect(jsonPath("$.itn").value(securedFacility.itn))
@@ -47,7 +53,8 @@ class SecuredFacilityControllerTest: IntegrationTestBase() {
 
     @Test
     fun update() {
-        val securedFacility = SecuredFacility(1, "updateName1", "updateItn1")
+        val employee: Employee = employeeController.getById(2).get()
+        val securedFacility = SecuredFacility(1, "updateName1", "updateItn1", employee)
         TestUtil.updateTest(mockMvc, uri, securedFacility)
     }
 

@@ -1,14 +1,14 @@
 package com.example.eyeofsauron.auth
 
-import com.example.eyeofsauron.entity.User
+import com.example.eyeofsauron.entity.Employee
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 
-class CustomUserDetails(user: User) : UserDetails {
-    private val username: String = user.username
-    private val password: String? = user.password
+class CustomUserDetails(employee: Employee) : UserDetails {
+    private val username: String = employee.username
+    private val password: String? = employee.password
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return mutableListOf()
@@ -39,7 +39,7 @@ class CustomUserDetails(user: User) : UserDetails {
     }
 
     companion object {
-        fun fromUserEntityToCustomUserDetails(user: User?) =
-            user?.run { CustomUserDetails(user) }
+        fun fromUserEntityToCustomUserDetails(employee: Employee?) =
+            employee?.run { CustomUserDetails(employee) }
     }
 }

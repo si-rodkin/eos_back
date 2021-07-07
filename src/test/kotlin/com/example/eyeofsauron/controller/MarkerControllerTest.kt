@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @AutoConfigureMockMvc
-class MarkerControllerTest: IntegrationTestBase() {
+internal class MarkerControllerTest: IntegrationTestBase() {
     var uri = MarkerController.uri
 
     @Autowired

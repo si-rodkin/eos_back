@@ -8,16 +8,16 @@ import javax.persistence.*
  */
 @Entity
 @Table(name = "employee")
-data class User(
+data class Employee(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_id_seq")
     @SequenceGenerator(name = "employee_id_seq", sequenceName = "employee_id_seq", allocationSize = 1)
-    val id: Long,
+    var id: Long,
 
     val username: String,
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    var password: String?,
+    var password: String,
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Transient
@@ -45,5 +45,9 @@ data class User(
     val leading: Boolean,
 
     @Column(name = "lead_id")
-    val lead: Long?
+    val lead: Long?,
+
+    @OneToMany
+    @JoinTable(name = "subordinate_leader", inverseJoinColumns = [JoinColumn(name = "subordinate_id")])
+    val subordinates: List<Employee>
 )

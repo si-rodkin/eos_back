@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import java.time.LocalTime
 
 @AutoConfigureMockMvc
-class CheckPointControllerTest: IntegrationTestBase() {
+internal class CheckPointControllerTest: IntegrationTestBase() {
     var uri = CheckPointController.uri
 
     @Autowired
