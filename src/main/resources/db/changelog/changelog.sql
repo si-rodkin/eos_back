@@ -173,3 +173,7 @@ alter table employee add column email text;
 insert into employee (id, username, password, first_name, last_name, patr_name, personnel_number, position, phone, timezone, is_lead, lead_id, email) values (nextval('employee_id_seq'), 'admin', '$2a$10$sQsn4soAkhPh3ACoDC3GUO4GVw3heYlVepo63/dV9RK5OTvWCf6a2', 'admin', 'admin', null, 0, 'Админ', '+79008007060', 'Europe/Moscow', true, null, 'admin@localhost');
 --rollback delete from employee;
 
+--changeset rodkinsi:fix/route_bypass__day-text
+alter table route_bypass alter column day type text;
+--rollback alter table route_bypass alter column day type integer USING (day::integer);
+

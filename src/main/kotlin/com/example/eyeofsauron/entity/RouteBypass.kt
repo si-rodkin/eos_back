@@ -6,7 +6,6 @@ import javax.persistence.*
 
 /**
  * Модель обхода по маршруту
- * @author rodkinsi
  */
 @Entity
 data class RouteBypass(
@@ -23,7 +22,7 @@ data class RouteBypass(
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     val bypassEndTime: LocalTime,
 
-    val day: Int,
+    val day: String,
 
     val notify: Boolean,
 

@@ -47,7 +47,7 @@ internal class RouteBypassControllerTest {
         val markerReader = markerReaderController.getById(1).get()
         val localTime = LocalTime.parse("14:34")
 
-        val routeBypass = RouteBypass(9999, "rbName99", localTime, localTime,3, false, route, markerReader)
+        val routeBypass = RouteBypass(9999, "rbName99", localTime, localTime,"3", false, route, markerReader)
 
         TestUtil.createTest(mockMvc, uri, routeBypass)
     }
@@ -58,7 +58,7 @@ internal class RouteBypassControllerTest {
         val markerReader = markerReaderController.getById(1).get()
         val localTime = LocalTime.parse("16:34")
 
-        val routeBypass = RouteBypass(1, "newRbName1", localTime, localTime,3, false, route, markerReader)
+        val routeBypass = RouteBypass(1, "newRbName1", localTime, localTime,"3", false, route, markerReader)
 
         TestUtil.updateTest(mockMvc, uri, routeBypass)
     }

@@ -9,7 +9,6 @@ import java.time.LocalTime
 
 /**
  * Сервис для работы с обходами маршрутов
- * @author rodkinsi
  */
 @Service
 class RouteBypassService(private val repository: RouteBypassRepository) {
@@ -31,7 +30,7 @@ class RouteBypassService(private val repository: RouteBypassRepository) {
             var spec = Specification.where(eqOrLaterThan(now).and(dayIs(nowWeekDay - 1)))
 
             // 2. выбираем обходы которые должны быть между днем запроса и днем лимита
-            val dayRange = (nowWeekDay..(boundWeekDay - 2))
+            val dayRange = makeDayRange(nowWeekDay, (boundWeekDay - 2))
             for (day in dayRange) {
                 spec = spec.or(dayIs(day))
             }
@@ -39,7 +38,20 @@ class RouteBypassService(private val repository: RouteBypassRepository) {
             // 3. выбираем обходы, которые будут в последнем дне с временем начала не позднее верхней границы выборки
             spec = spec.or(dayIs(boundWeekDay - 1).and(eqOrEarlierThan(limit)))
 
-            return repository.findAll(spec)
+            val routeBypasses = repository.findAll(spec)
+            val result = mutableMapOf<Int, List<RouteBypass>>()
+
+            for (day in makeDayRange(nowWeekDay - 1, boundWeekDay - 1)) {
+                val localResult = mutableListOf<RouteBypass>()
+                for (bypass in routeBypasses)
+                    if (bypass.day.contains(day.toString()))
+                        localResult.add(bypass);
+                result.put(day, localResult)
+            }
+
+            val veryResult = mutableListOf<RouteBypass>()
+            result.map { it.value }.map { it.sortedBy { it.bypassTime } }.map { veryResult.addAll(it) }
+            return veryResult
         } else {
             // Ограничение на время по умолчанию: если выборка в пределах дня
             val spec = Specification.where(dayIs(nowWeekDay - 1).and(eqOrLaterThan(now)).and(eqOrEarlierThan(limit)))
@@ -59,19 +71,26 @@ class RouteBypassService(private val repository: RouteBypassRepository) {
 
     fun deleteById(id: Long) = repository.deleteById(id)
 
+    private fun makeDayRange(begin: Int, endP: Int): List<Int> {
+        val result = mutableListOf<Int>()
+        val end = if (begin > endP) endP + 7 else endP;
+        for (i in begin..end) result.add(i % 7)
+        return result
+    }
+
     companion object {
         fun dayIs(day: Int) =
-            Specification<RouteBypass> { root, query, criteriaBuilder ->
-                criteriaBuilder.equal(root.get<Int>("day"), day)
+            Specification<RouteBypass> { root, _, criteriaBuilder ->
+                criteriaBuilder.like(root.get("day"), "%$day%")
             }
 
         fun eqOrLaterThan(limit: LocalTime) =
-            Specification<RouteBypass> { root, query, criteriaBuilder ->
+            Specification<RouteBypass> { root, _, criteriaBuilder ->
                 criteriaBuilder.greaterThanOrEqualTo(root.get("bypassTime"), limit)
             }
 
         fun eqOrEarlierThan(limit: LocalTime) =
-            Specification<RouteBypass> { root, query, criteriaBuilder ->
+            Specification<RouteBypass> { root, _, criteriaBuilder ->
                 criteriaBuilder.lessThanOrEqualTo(root.get("bypassTime"), limit)
             }
     }
