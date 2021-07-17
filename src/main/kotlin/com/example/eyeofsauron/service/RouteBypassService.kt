@@ -1,5 +1,6 @@
 package com.example.eyeofsauron.service
 
+import com.example.eyeofsauron.entity.MarkerReader
 import com.example.eyeofsauron.entity.RouteBypass
 import com.example.eyeofsauron.repository.RouteBypassRepository
 import org.springframework.data.jpa.domain.Specification
@@ -38,7 +39,7 @@ class RouteBypassService(private val repository: RouteBypassRepository) {
             // 3. выбираем обходы, которые будут в последнем дне с временем начала не позднее верхней границы выборки
             spec = spec.or(dayIs(boundWeekDay - 1).and(eqOrEarlierThan(limit)))
 
-            val routeBypasses = repository.findAll(spec)
+            val routeBypasses = repository.findAll(deviceIs(imei).and(spec))
             val result = mutableMapOf<Int, List<RouteBypass>>()
 
             for (day in makeDayRange(nowWeekDay - 1, boundWeekDay - 1)) {
@@ -54,7 +55,7 @@ class RouteBypassService(private val repository: RouteBypassRepository) {
             return veryResult
         } else {
             // Ограничение на время по умолчанию: если выборка в пределах дня
-            val spec = Specification.where(dayIs(nowWeekDay - 1).and(eqOrLaterThan(now)).and(eqOrEarlierThan(limit)))
+            val spec = Specification.where(deviceIs(imei).and(dayIs(nowWeekDay)).and(eqOrLaterThan(now)).and(eqOrEarlierThan(limit)))
             return  repository.findAll(spec)
         }
     }
@@ -79,6 +80,11 @@ class RouteBypassService(private val repository: RouteBypassRepository) {
     }
 
     companion object {
+        fun deviceIs(imei: String) =
+            Specification<RouteBypass> { root, _, criteriaBuilder ->
+                criteriaBuilder.equal(root.get<MarkerReader>("markerReader").get<String>("imei"), imei)
+            }
+
         fun dayIs(day: Int) =
             Specification<RouteBypass> { root, _, criteriaBuilder ->
                 criteriaBuilder.like(root.get("day"), "%$day%")
