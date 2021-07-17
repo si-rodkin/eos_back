@@ -23,9 +23,10 @@ class StatisticsController(
     fun commitMarker(
         @PathVariable imei: String,
         @PathVariable rfid: String,
-        @PathVariable checkpointId: Long
+        @PathVariable checkpointId: Long,
+        @RequestBody bytes: ByteArray
     ) {
-        service.commitStatistic(imei, rfid, checkpointId)
+        service.commitStatistic(imei, rfid, checkpointId, bytes)
     }
 
     @PostMapping("/api/switch-marker-check-mode")

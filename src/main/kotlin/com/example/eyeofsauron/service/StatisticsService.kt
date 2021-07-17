@@ -8,7 +8,6 @@ import java.time.LocalDateTime
 
 /**
  * Сервис для работы со статистикой
- * @author rodkinsi
  */
 @Service
 class StatisticsService(
@@ -27,13 +26,14 @@ class StatisticsService(
 
     fun getUnplanned(): List<Statistics> = repository.findUnplanned()
 
-    fun commitStatistic(imei: String, rfid: String, checkpointId: Long) {
+    fun commitStatistic(imei: String, rfid: String, checkpointId: Long, bytes: ByteArray) {
         // TODO: Уточнять который "Новый маркер" по счету
         if (markerCreationMode) markerService.create(Marker(null, "Новый маркер", rfid, null))
         else repository.save(
             Statistics(
                 null,
-                LocalDateTime.now() /*TODO*/,
+                // bytes format: [yy,mm,dd,hh,MM]
+                LocalDateTime.of(2000+bytes[4].toInt(), bytes[3].toInt(), bytes[2].toInt(), bytes[0].toInt(), bytes[1].toInt()),
                 markerService.getByRfid(rfid),
                 markerReaderService.getByImei(imei),
                 checkPointService.getById(checkpointId).get()
