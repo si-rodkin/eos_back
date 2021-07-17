@@ -5,7 +5,6 @@ import javax.persistence.*
 
 /**
  * Модель пользователя (сотрудника) системы
- * @author rodkinsi
  */
 @Entity
 @Table(name = "employee")

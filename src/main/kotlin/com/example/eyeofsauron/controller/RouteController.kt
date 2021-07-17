@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*
 
 /**
  * Контроллер для работы с маршрутами на охраняемых объектах
- * @author rodkinsi
  */
 @RestController
 @RequestMapping(RouteController.uri)

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*
 
 /**
  * Контроллер для работы с обходами маршрутов
- * @author rodkinsi
  */
 @RestController
 @RequestMapping(RouteBypassController.uri)

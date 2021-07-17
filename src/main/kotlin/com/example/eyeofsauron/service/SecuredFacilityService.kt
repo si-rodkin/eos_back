@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service
 
 /**
  * Сервис для работы с охраняемыми объектами
- * @author rodkinsi
  */
 @Service
 class SecuredFacilityService(private val repository: SecuredFacilityRepository) {

@@ -12,7 +12,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 /**
  * Конфигурация Spring Security
- * @author rodkinsi
  */
 @Configuration
 class SecurityConfig(

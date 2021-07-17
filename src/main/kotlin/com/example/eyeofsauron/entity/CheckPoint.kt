@@ -6,7 +6,6 @@ import javax.persistence.*
 
 /**
  * Модель контрольной точки
- * @author rodkinsi
  */
 @Entity
 data class CheckPoint(

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*
 
 /**
  * Контроллер для работы с контрольными точками
- * @author rodkinsi
  */
 @RestController
 @RequestMapping(CheckPointController.uri)

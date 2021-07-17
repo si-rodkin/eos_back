@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service
 
 /**
  * Сервис для работы с контрольными точками
- * @author rodkinsi
  */
 @Service
 class CheckPointService(private val repository: CheckPointRepository) {

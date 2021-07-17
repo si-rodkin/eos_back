@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*
 
 /**
  * Контроллер для работы с маркерами {@link Marker}
- * @author rodkinsi
  */
 @RestController
 @RequestMapping(MarkerController.uri)

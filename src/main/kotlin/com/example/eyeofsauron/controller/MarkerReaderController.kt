@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*
 
 /**
  * Контроллер для работы с устройствами считывания меток {@link MarkerReader}
- * @author rodkinsi
  */
 @RestController
 @RequestMapping(MarkerReaderController.uri)

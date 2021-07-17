@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service
 
 /**
  * Сервис для работы с маркерами
- * @author rodkinsi
  */
 @Service
 class MarkerService(private val repository: MarkerRepository) {

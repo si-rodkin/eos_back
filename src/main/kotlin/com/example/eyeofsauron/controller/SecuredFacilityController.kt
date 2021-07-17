@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*
 
 /**
  * Контроллер для работы с охраняемыми объектами
- * @author rodkinsi
  */
 @RestController
 @RequestMapping(SecuredFacilityController.uri)

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service
 
 /**
  * Сервис для работы с маршрутами на охраняемых объектах
- * @author rodkinsi
  */
 @Service
 class RouteService(private val repository: RouteRepository) {

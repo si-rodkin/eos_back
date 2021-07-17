@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*
 
 /**
  * Контроллер для работы с пользователями (сотрудниками) системы
- * @author rodkinsi
  */
 @RestController
 @RequestMapping(UserController.uri)

@@ -7,7 +7,6 @@ import javax.persistence.*
 
 /**
  * Модель статистики
- * @author rodkinsi
  */
 @Entity
 data class Statistics(

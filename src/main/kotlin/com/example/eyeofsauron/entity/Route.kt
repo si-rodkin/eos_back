@@ -4,7 +4,6 @@ import javax.persistence.*
 
 /**
  * Модель маршрута на охраняемом объекте
- * @author rodkinsi
  */
 @Entity
 data class Route(

@@ -7,7 +7,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 /**
  * Конфиг гасит проблемы с CORS
- * @author rodkinsi
  */
 @Configuration
 @EnableWebMvc

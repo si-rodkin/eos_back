@@ -4,7 +4,6 @@ import javax.persistence.*
 
 /**
  * Модель охраняемого объекта
- * @author rodkinsi
  */
 @Entity
 data class SecuredFacility(

@@ -4,7 +4,6 @@ import javax.persistence.*
 
 /**
  * Модель считывателя маркеров
- * @author rodkinsi
  */
 @Entity
 data class MarkerReader(

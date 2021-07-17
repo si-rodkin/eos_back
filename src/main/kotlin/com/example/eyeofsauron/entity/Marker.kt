@@ -4,7 +4,6 @@ import javax.persistence.*
 
 /**
  * Модель маркера (метки)
- * @author rodkinsi
  */
 @Entity
 data class Marker(

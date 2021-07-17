@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service
 
 /**
  * Сервис для работы с пользователями (сотрудниками) системы
- * @author rodkinsi
  */
 @Service
 class UserService(

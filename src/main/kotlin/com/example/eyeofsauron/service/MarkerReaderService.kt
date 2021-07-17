@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service
 
 /**
  * Сервис для работы с устройствами для считывания меток
- * @author rodkinsi
  */
 @Service
 class MarkerReaderService(private val repository: MarkerReaderRepository) {
