@@ -5,20 +5,17 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import java.time.ZoneId
 
 /**
  * Контроллер для радоты со считывателями маркеров
- *
- * @author rodkinsi
  */
 @RestController
 class SyncController(
     private val service: SyncService
 ) {
     @GetMapping("/api/sync/date")
-    fun syncDate() = service.syncDate()
+    fun syncDate(@RequestParam(defaultValue = "Europe/Moscow") zoneId: ZoneId) = service.syncDate(zoneId)
 
     @GetMapping("/api/sync/route/{imei}")
     fun syncRoute(
