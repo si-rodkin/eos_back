@@ -1,6 +1,7 @@
 package com.example.eyeofsauron.entity
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import java.time.LocalDate
 import java.time.LocalTime
 import javax.persistence.*
 
@@ -22,7 +23,11 @@ data class RouteBypass(
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
     val bypassEndTime: LocalTime,
 
-    val day: String,
+    val day: String?,
+
+    val dateRangeStart: LocalDate?,
+
+    val dateRangeEnd: LocalDate?,
 
     val notify: Boolean,
 

@@ -6,6 +6,7 @@ import com.example.eyeofsauron.exception.EntityNotFoundException
 import com.example.eyeofsauron.repository.RouteBypassRepository
 import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
@@ -38,12 +39,46 @@ class RouteBypassService(private val repository: RouteBypassRepository) {
                 )
                 // 3. выбираем обходы, которые будут в последнем дне с временем начала не позднее верхней границы выборки
                 .or(dayIs(boundWeekDay).and(startTimeLte(LocalTime.now().plusHours(limit))))
+                // 4. Те, в диапазон дат обхода которых попадают дни выборки
+                .or(
+                    (0..makeDayRange(nowWeekDay, boundWeekDay).size - 1)
+                        // TODO: учесть ограничение по времени
+                        .map { number -> isInDateRange(LocalDate.now().plusDays(number.toLong())) }
+                        .ifEmpty { null }
+                        ?.reduce { resultSpec, forDay -> resultSpec.or(forDay) }
+                )
 
             return repository.findAll(deviceIs(imei).and(spec)).run {
                 // проход по номерам дней недели на которые выпадает выборка
                 makeDayRange(nowWeekDay, boundWeekDay)
                     // выбираем обходы за данный день
-                    .map { day -> this.filter { it.day.contains(day.toString()) } }
+                    .map { day ->
+                        this.filter { bypass ->
+                            // выпадает ли обход на рассматриваемый день
+                            var result = false
+                            // если задан день, смотрим по дню
+                            if (bypass.day != null) {
+                                result = bypass.day.contains(day.toString())
+                            }
+                            // если день не задан или по дню не нашли, ищем в диапазоне дат
+                            if (!result && bypass.dateRangeStart != null) {
+                                // вычисляем период между началом и концом диапазона
+                                // если не задан конец диапазона, считаем, что обход назначен на конкретный день
+                                val until = bypass.dateRangeStart.until(bypass.dateRangeEnd ?: bypass.dateRangeStart)
+                                // если выборка ведётся в рамках недели
+                                if (until.years == 0 && until.months == 0 && until.days <= 7) {
+                                    // Создаем последовательность номеров дней недели между началом и концом и проверяем попадает ли в последовательность текущий день
+                                    result = makeDayRange(
+                                        bypass.dateRangeStart.dayOfWeek.value,
+                                        bypass.dateRangeEnd?.dayOfWeek?.value ?: bypass.dateRangeStart.dayOfWeek.value
+                                    )
+                                        .contains(day + 1)
+                                }
+                                // TODO: рассмотреть возможность ведения выборки более чем на неделю
+                            }
+                            result
+                        }
+                    }
                     // сортируем обходы за данный день по времени начала
                     .map { it.sortedBy { it.bypassTime } }
                     // Собираем списки из предыдущих этапов в единый список
@@ -94,6 +129,15 @@ class RouteBypassService(private val repository: RouteBypassRepository) {
         fun dayIs(day: Int) =
             Specification<RouteBypass> { root, _, criteriaBuilder ->
                 criteriaBuilder.like(root.get("day"), "%$day%")
+            }
+
+        /** Проверка попадает ли заданная дата в диапазон дат обхода */
+        fun isInDateRange(date: LocalDate) =
+            Specification<RouteBypass> { root, _, criteriaBuilder ->
+                criteriaBuilder.and(
+                    criteriaBuilder.greaterThanOrEqualTo(root.get("dateRangeStart"), date),
+                    criteriaBuilder.lessThanOrEqualTo(root.get("dateRangeEnd"), date)
+                )
             }
 
         /**

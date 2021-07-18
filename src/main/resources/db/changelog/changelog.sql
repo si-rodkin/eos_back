@@ -177,3 +177,13 @@ insert into employee (id, username, password, first_name, last_name, patr_name, 
 alter table route_bypass alter column day type text;
 --rollback alter table route_bypass alter column day type integer USING (day::integer);
 
+--changeset rodkinsi:feature/route_bypass_range_fields
+--Комментарий: Добавление поля начала диапазона дат в которые должен быть обход
+alter table route_bypass add column date_range_start date;
+comment on column route_bypass.date_range_start is 'Начало диапазона дат обхода';
+--Комментарий: Добавление поля конца диапазона дат в которые должен быть обход
+alter table route_bypass add column date_range_end date;
+comment on column route_bypass.date_range_end is 'Конец диапазона дат обхода';
+--rollback alter table route_bypass drop column date_range_start;
+--rollback alter table route_bypass drop column date_range_end;
+
