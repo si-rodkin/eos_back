@@ -22,7 +22,7 @@ class EmployeeService(
     fun getById(id: Long) = repository.findById(id)
 
     fun getByUsernameAndPassword(username: String, password: String): Employee? =
-        repository.findByUsername(username)?.run {
+        repository.findByUsername(username).run {
             if (passwordEncoder.matches(password, this.password)) return this else null
         }
 

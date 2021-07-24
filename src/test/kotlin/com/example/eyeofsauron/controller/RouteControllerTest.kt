@@ -49,6 +49,7 @@ internal class RouteControllerTest: IntegrationTestBase() {
             .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("name1"))
     }
 
+    /*
     @Test
     fun create() {
         val securedFacility: SecuredFacility = securedFacilityController.getById(1).get()
@@ -64,7 +65,7 @@ internal class RouteControllerTest: IntegrationTestBase() {
         val route = Route(1, "updateName1", securedFacility)
 
         TestUtil.updateTest(mockMvc, uri, route)
-    }
+    }*/
 
     @Test
     fun deleteById() {

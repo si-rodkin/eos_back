@@ -7,6 +7,7 @@ import com.example.eyeofsauron.TestUtil
 import com.example.eyeofsauron.TestUtil.Companion.objectToJson
 import com.example.eyeofsauron.entity.Employee
 import com.example.eyeofsauron.entity.SecuredFacility
+import org.junit.jupiter.api.BeforeAll
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -36,6 +37,7 @@ internal  class SecuredFacilityControllerTest: IntegrationTestBase() {
     }
 
     @Test
+    @WithMockUser("username2-1")
     fun getById() {
         TestUtil.getByIdTest(mockMvc, uri, "1")
             .andExpect(jsonPath("$.name").value("name1"))
@@ -43,6 +45,7 @@ internal  class SecuredFacilityControllerTest: IntegrationTestBase() {
     }
 
     @Test
+    @WithMockUser("username2-1")
     fun create() {
         val employee: Employee = employeeController.getById(1).get()
         val securedFacility = SecuredFacility(99999, "createName3", "createItn3", employee)

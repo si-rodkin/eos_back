@@ -1,5 +1,6 @@
 package com.example.eyeofsauron.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import javax.persistence.*
 
@@ -17,7 +18,7 @@ data class Employee(
     val username: String,
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    var password: String,
+    var password: String?,
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Transient
@@ -47,7 +48,8 @@ data class Employee(
     @Column(name = "lead_id")
     val lead: Long?,
 
+    @JsonIgnore
     @OneToMany
-    @JoinTable(name = "subordinate_leader", inverseJoinColumns = [JoinColumn(name = "subordinate_id")])
-    val subordinates: List<Employee>
+    @JoinTable(name = "subordinate_leader", joinColumns = [JoinColumn(name = "leader_id")])
+    val subordinate: List<Employee>?
 )
