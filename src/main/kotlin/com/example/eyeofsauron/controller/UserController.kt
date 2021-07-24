@@ -1,17 +1,16 @@
 package com.example.eyeofsauron.controller
 
-import com.example.eyeofsauron.entity.Employee
-import com.example.eyeofsauron.service.EmployeeService
+import com.example.eyeofsauron.entity.User
+import com.example.eyeofsauron.service.UserService
 import org.springframework.http.HttpStatus
-import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
 /**
  * Контроллер для работы с пользователями (сотрудниками) системы
  */
 @RestController
-@RequestMapping(EmployeeController.uri)
-class EmployeeController(private val service: EmployeeService) {
+@RequestMapping(UserController.uri)
+class UserController(private val service: UserService) {
     @GetMapping
     fun getAllEmployees(@RequestParam("uid", required = false) uid: Long?) = service.getAll(uid)
 
@@ -20,10 +19,10 @@ class EmployeeController(private val service: EmployeeService) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody employee: Employee) = service.create(employee)
+    fun create(@RequestBody user: User) = service.create(user)
 
     @PutMapping
-    fun update(@RequestBody employee: Employee) = service.update(employee)
+    fun update(@RequestBody user: User) = service.update(user)
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

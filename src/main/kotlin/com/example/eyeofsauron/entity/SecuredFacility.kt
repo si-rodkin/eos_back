@@ -20,10 +20,6 @@ data class SecuredFacility(
 
     val itn: String,
 
-    //@ManyToOne
-    //@JsonIgnoreProperties("username", "firstName", "lastName", "patrName",
-    //"personnelNumber", "position", "phone", "email", "timezone", "isLead", "lead")
-    //@JsonIdentityReference(alwaysAsId=true)
     @Column
     override var ownerId: Long
-): IEntity
+): Ownerable

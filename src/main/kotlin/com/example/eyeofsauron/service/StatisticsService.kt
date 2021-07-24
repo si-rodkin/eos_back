@@ -28,7 +28,7 @@ class StatisticsService(
 
     fun commitStatistic(imei: String, rfid: String, checkpointId: Long, bytes: ByteArray) {
         // TODO: Уточнять который "Новый маркер" по счету
-        if (markerCreationMode) markerService.create(Marker(null, "Новый маркер", rfid, null))
+        if (markerCreationMode) markerService.create(Marker(null, "Новый маркер", rfid, null, null))
         else repository.save(
             Statistics(
                 null,

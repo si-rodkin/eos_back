@@ -9,7 +9,7 @@ import javax.persistence.*
  */
 @Entity
 @Table(name = "employee")
-data class Employee(
+data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_id_seq")
     @SequenceGenerator(name = "employee_id_seq", sequenceName = "employee_id_seq", allocationSize = 1)
@@ -51,5 +51,5 @@ data class Employee(
     @JsonIgnore
     @OneToMany
     @JoinTable(name = "subordinate_leader", joinColumns = [JoinColumn(name = "leader_id")])
-    val subordinate: List<Employee>?
+    val subordinate: List<User>?,
 )

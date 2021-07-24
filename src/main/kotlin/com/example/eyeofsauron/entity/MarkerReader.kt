@@ -10,7 +10,7 @@ data class MarkerReader(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "marker_reader_id_seq")
     @SequenceGenerator(name = "marker_reader_id_seq", sequenceName = "marker_reader_id_seq", allocationSize = 1)
-    val id: Long,
+    override val id: Long,
 
     val name: String?,
 
@@ -20,5 +20,9 @@ data class MarkerReader(
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
     @JoinTable(name = "route_marker_reader", inverseJoinColumns = [JoinColumn(name = "route_id")])
-    val routes: List<Route>
-)
+    val routes: List<Route>,
+
+    @Column
+    override var ownerId: Long
+): Ownerable
+
