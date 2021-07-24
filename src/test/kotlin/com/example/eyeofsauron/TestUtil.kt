@@ -7,14 +7,15 @@ import java.lang.RuntimeException
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.http.MediaType
+import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.ResultMatcher
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.result.PrintingResultHandler
 
 class TestUtil {
-
     companion object {
         @JvmStatic
         @Throws(JsonProcessingException::class)
@@ -55,7 +56,6 @@ class TestUtil {
         fun createTest(mockMvc: MockMvc, uri: String, obj: Any): ResultActions{
             return mockMvc.perform(MockMvcRequestBuilders.post(uri)
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
                 .content(objectToJson(obj)))
                 .andExpect(MockMvcResultMatchers.status().isCreated)
                 .andDo(MockMvcResultHandlers.print())
@@ -77,13 +77,6 @@ class TestUtil {
         }
     }
 
-
-
-    //public static ResultMatcher product(String prefix, Product product) {
-    //    return ResultMatcher.matchAll(
-    //            jsonPath(prefix + ".name").value(product.getName()),
-    //            jsonPath(prefix + ".description").value(product.getDescription())
-    //    );}
     fun noCacheHeader(): ResultMatcher {
         return MockMvcResultMatchers.header().string("Cache-Control", "no-cache")
     }

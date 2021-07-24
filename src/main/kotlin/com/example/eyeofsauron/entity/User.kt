@@ -1,5 +1,6 @@
 package com.example.eyeofsauron.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import javax.persistence.*
 
@@ -12,7 +13,7 @@ data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_id_seq")
     @SequenceGenerator(name = "employee_id_seq", sequenceName = "employee_id_seq", allocationSize = 1)
-    val id: Long,
+    var id: Long,
 
     val username: String,
 
@@ -45,5 +46,10 @@ data class User(
     val leading: Boolean,
 
     @Column(name = "lead_id")
-    val lead: Long?
+    val lead: Long?,
+
+    @JsonIgnore
+    @OneToMany
+    @JoinTable(name = "subordinate_leader", joinColumns = [JoinColumn(name = "leader_id")])
+    val subordinate: List<User>?,
 )

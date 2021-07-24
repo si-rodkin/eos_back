@@ -12,7 +12,7 @@ data class RouteBypass(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "route_bypass_id_seq")
     @SequenceGenerator(name = "route_bypass_id_seq", sequenceName = "route_bypass_id_seq", allocationSize = 1)
-    val id: Long,
+    override val id: Long,
 
     val name: String,
 
@@ -30,5 +30,8 @@ data class RouteBypass(
     val route: Route,
 
     @OneToOne
-    val markerReader: MarkerReader
-)
+    val markerReader: MarkerReader,
+
+    @Column
+    override var ownerId: Long
+): Ownerable

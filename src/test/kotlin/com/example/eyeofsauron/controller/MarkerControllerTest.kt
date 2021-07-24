@@ -1,29 +1,24 @@
 package com.example.eyeofsauron.controller
 
-import com.example.eyeofsauron.EyeOfSauronApplication
+import com.example.eyeofsauron.IntegrationTestBase
 import com.example.eyeofsauron.TestUtil
 import com.example.eyeofsauron.entity.Marker
-import com.example.eyeofsauron.entity.SecuredFacility
 import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
-import kotlin.jvm.Throws
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = arrayOf(EyeOfSauronApplication::class))
 @AutoConfigureMockMvc
-internal class MarkerControllerTest {
+internal class MarkerControllerTest: IntegrationTestBase() {
     var uri = MarkerController.uri
 
     @Autowired
     lateinit var mockMvc: MockMvc
+
+    @Autowired
+    lateinit var routeController: RouteController
 
     @Test
     fun getAll() {
@@ -33,6 +28,8 @@ internal class MarkerControllerTest {
     @Test
     fun getById() {
         TestUtil.getByIdTest(mockMvc, uri, "1")
+            .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("name1"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.rfid").value("rfid1"))
     }
 
     @Test
@@ -40,7 +37,14 @@ internal class MarkerControllerTest {
         TestUtil.getByIdTest(mockMvc, uri, "/free-or/1")
     }
 
-    //Тест проходит, но объект не удаляется
+    @Test
+    fun update() {
+        val route = routeController.getById(1).get()
+        val marker = Marker(1, "updateName", "updateRfid", route)
+
+        TestUtil.updateTest(mockMvc, uri, marker)
+    }
+
     @Test
     fun deleteById() {
         TestUtil.deleteByIdTest(mockMvc, uri, "2")

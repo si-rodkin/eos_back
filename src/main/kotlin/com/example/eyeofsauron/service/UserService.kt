@@ -13,29 +13,29 @@ class UserService(
     private val repository: UserRepository,
     private val passwordEncoder: PasswordEncoder
 ) {
-    fun getAllUsers(uid: Long?): List<User> {
+    fun getAll(uid: Long?): List<User> {
         return uid?.let {
             return repository.findByLead(it)
         } ?: repository.findAllByLeadingNotNull()
     }
 
-    fun getUserById(id: Long) = repository.findById(id)
+    fun getById(id: Long) = repository.findById(id)
 
     fun getByUsernameAndPassword(username: String, password: String): User? =
-        repository.findByUsername(username)?.run {
+        repository.findByUsername(username).run {
             if (passwordEncoder.matches(password, this.password)) return this else null
         }
 
-    fun getByUsername(username: String) =
-        repository.findByUsername(username)
+    fun getByUsername(username: String) = repository.findByUsername(username)
 
-    fun createUser(user: User): User {
+    fun create(user: User): User {
         user.password = passwordEncoder.encode("123456")
         return repository.save(user)
     }
 
-    fun updateUser(user: User): User {
-        user.password = repository.getById(user.id).password
+    fun update(user: User): User {
+        if(!repository.existsById(user.id))
+            throw(Exception("Record not found!"))
         return repository.save(user)
     }
 
@@ -49,5 +49,5 @@ class UserService(
 
     fun delete(user: User) = repository.delete(user)
 
-    fun deleteUserById(id: Long) = repository.deleteById(id)
+    fun deleteById(id: Long) = repository.deleteById(id)
 }

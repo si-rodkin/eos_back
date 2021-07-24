@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.*
  * Контроллер для работы с событиями считывания меток устройствами
  */
 @RestController
-class StatisticsController(
-    private val service: StatisticsService
-) {
+class StatisticsController(private val service: StatisticsService) {
     @GetMapping("/api/commits")
     fun getAll() = service.getAll()
 

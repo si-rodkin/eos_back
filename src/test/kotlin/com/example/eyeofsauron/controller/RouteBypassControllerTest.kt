@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter
 
 
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = arrayOf(EyeOfSauronApplication::class))
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = [EyeOfSauronApplication::class])
 @AutoConfigureMockMvc
 internal class RouteBypassControllerTest {
     var uri = RouteBypassController.uri

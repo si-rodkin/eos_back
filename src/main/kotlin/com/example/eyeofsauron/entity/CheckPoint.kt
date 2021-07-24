@@ -12,7 +12,7 @@ data class CheckPoint(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "check_point_id_seq")
     @SequenceGenerator(name = "check_point_id_seq", sequenceName = "check_point_id_seq", allocationSize = 1)
-    val id: Long,
+    override val id: Long,
 
     val name: String,
 
@@ -28,4 +28,7 @@ data class CheckPoint(
 
     @ManyToOne
     val marker: Marker,
-)
+
+    @Column
+    override var ownerId: Long
+): Ownerable

@@ -1,5 +1,14 @@
 ###
-GET http://localhost:8080/api/route-bypasses/1
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "123456"
+}
+
+###
+GET http://localhost:8080/api/secured-facilities/2
 
 ###
 POST http://localhost:8080/api/secured-facilities
@@ -7,8 +16,9 @@ Content-Type: application/json
 
 {
   "id": 88,
-  "name": "wtf",
-  "itn": "dude"
+  "name": "whweh",
+  "itn": "dfefe",
+  "ownerId": 1
 }
 
 ###
@@ -16,10 +26,14 @@ PUT http://localhost:8080/api/secured-facilities
 Content-Type: application/json
 
 {
-  "id": 999999,
-  "name": "11511",
-  "itn": "22wd2"
+  "id": 4,
+  "name": "wtf!!!1",
+  "itn": "dudea1",
+  "ownerId": 2
 }
+
+###
+DELETE http://localhost:8080/api/secured-facilities/3
 
 ###
 POST http://localhost:8080/auth/login
@@ -49,5 +63,5 @@ Content-Type: application/json
   "isLead": true
 }
 
-###
-GET http://localhost:8080/api/users/?uid=1
+
+

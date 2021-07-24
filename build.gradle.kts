@@ -20,6 +20,7 @@ repositories {
 extra["testcontainersVersion"] = "1.15.3"
 
 dependencies {
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-quartz")
@@ -39,7 +40,6 @@ dependencies {
 
     liquibaseRuntime("org.liquibase:liquibase-core")
     liquibaseRuntime("org.postgresql:postgresql")
-
 }
 
 dependencyManagement {

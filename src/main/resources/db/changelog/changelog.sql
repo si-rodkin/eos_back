@@ -18,15 +18,15 @@ create table employee
     lead_id          bigint references employee
 );
 comment
-on table employee is 'Таблица пользователей (сотрудников) системы';
+    on table employee is 'Таблица пользователей (сотрудников) системы';
 comment
-on column employee.personnel_number is 'Табельный номер сотрудника';
+    on column employee.personnel_number is 'Табельный номер сотрудника';
 comment
-on column employee.position is 'Должность сотрудника';
+    on column employee.position is 'Должность сотрудника';
 comment
-on column employee.is_lead is 'Является ли сотрудник руководителем';
+    on column employee.is_lead is 'Является ли сотрудник руководителем';
 comment
-on column employee.lead_id is 'Идентификатор руководителя сотрудника';
+    on column employee.lead_id is 'Идентификатор руководителя сотрудника';
 --rollback drop table employee;
 
 --changeset rodkinsi:feature/secured_facility_table_creation
@@ -71,13 +71,13 @@ create table marker_reader
     phone text                  not null unique
 );
 comment
-on table marker_reader is 'Таблица считывателей меток';
+    on table marker_reader is 'Таблица считывателей меток';
 comment
-on column marker_reader.name is 'Название считывающего устройства';
+    on column marker_reader.name is 'Название считывающего устройства';
 comment
-on column marker_reader.imei is 'IMEI сим-карты установленной в считывающее устройство';
+    on column marker_reader.imei is 'IMEI сим-карты установленной в считывающее устройство';
 comment
-on column marker_reader.phone is 'Номер сим-карты установленной в считывающее устройство';
+    on column marker_reader.phone is 'Номер сим-карты установленной в считывающее устройство';
 --rollback drop table marker_reader;
 
 --changeset rodkinsi:feature/rout_bypass
@@ -177,3 +177,48 @@ insert into employee (id, username, password, first_name, last_name, patr_name, 
 alter table route_bypass alter column day type text;
 --rollback alter table route_bypass alter column day type integer USING (day::integer);
 
+--changeset DudeWithNuke:feature/security
+--Комментарий: Вставка линкующей таблицы для Employee
+create table subordinate_leader
+(
+    id             bigserial primary key not null,
+    subordinate_id bigint references employee,
+    leader_id      bigint references employee
+);
+--rollback drop table leader_subordinate
+
+--changeset DudeWithNuke:feature/security
+--Комментарий: В сущность Охраняемый объект добавлено поле ID владельца
+alter table secured_facility
+    add column owner_id bigint references employee;
+--rollback alter table secured_facility drop column owner_id;
+
+--changeset DudeWithNuke:feature/security
+--Комментарий: В сущность Маршрут добавлено поле ID владельца
+alter table route
+    add column owner_id bigint references employee;
+--rollback alter table route drop column owner_id;
+
+--changeset DudeWithNuke:feature/security
+--Комментарий: В сущность Обход маршрута добавлено поле ID владельца
+alter table route_bypass
+    add column owner_id bigint references employee;
+--rollback alter table route_bypass drop column owner_id;
+
+--changeset DudeWithNuke:feature/security
+--Комментарий: В сущность Маркер добавлено поле ID владельца
+alter table marker
+    add column owner_id bigint references employee;
+--rollback alter table marker drop column owner_id;
+
+--changeset DudeWithNuke:feature/security
+--Комментарий: В сущность Cчитыватель маркера добавлено поле ID владельца
+alter table marker_reader
+    add column owner_id bigint references employee;
+--rollback alter table marker_reader drop column owner_id;
+
+--changeset DudeWithNuke:feature/security
+--Комментарий: В сущность Контрольная точка добавлено поле ID владельца
+alter table check_point
+    add column owner_id bigint references employee;
+--rollback alter table check_point drop column owner_id;

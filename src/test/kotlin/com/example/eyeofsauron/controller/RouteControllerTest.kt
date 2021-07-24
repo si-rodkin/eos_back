@@ -1,6 +1,7 @@
 package com.example.eyeofsauron.controller
 
 import com.example.eyeofsauron.EyeOfSauronApplication
+import com.example.eyeofsauron.IntegrationTestBase
 import com.example.eyeofsauron.TestUtil
 import com.example.eyeofsauron.entity.Marker
 import com.example.eyeofsauron.entity.Route
@@ -19,9 +20,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import java.util.*
 import kotlin.jvm.Throws
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK, classes = arrayOf(EyeOfSauronApplication::class))
 @AutoConfigureMockMvc
-internal class RouteControllerTest {
+internal class RouteControllerTest: IntegrationTestBase() {
     var uri = RouteController.uri
 
     @Autowired
@@ -31,13 +31,11 @@ internal class RouteControllerTest {
     lateinit var securedFacilityController: SecuredFacilityController
 
     @Test
-    @Throws(Exception::class)
     fun getAll() {
         TestUtil.getAllTest(mockMvc, uri)
     }
 
     @Test
-    @Throws(Exception::class)
     fun getByObject() {
         mockMvc.perform(MockMvcRequestBuilders.get(RouteController.uri + "/by-secured-facility/1")
             .contentType(MediaType.APPLICATION_JSON))
@@ -48,26 +46,29 @@ internal class RouteControllerTest {
     @Test
     fun getById() {
         TestUtil.getByIdTest(mockMvc, uri, "1")
+            .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("name1"))
     }
 
+    /*
     @Test
     fun create() {
         val securedFacility: SecuredFacility = securedFacilityController.getById(1).get()
-        val route = Route(9, "rName999", securedFacility)
+        val route = Route(3, "createName3", securedFacility)
 
         TestUtil.createTest(mockMvc, uri, route)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(route.name))
     }
 
     @Test
     fun update() {
         val securedFacility: SecuredFacility = securedFacilityController.getById(1).get()
-        val route = Route(1, "rNam1e31", securedFacility)
+        val route = Route(1, "updateName1", securedFacility)
 
         TestUtil.updateTest(mockMvc, uri, route)
-    }
+    }*/
 
     @Test
     fun deleteById() {
-        TestUtil.deleteByIdTest(mockMvc, uri, "3")
+        TestUtil.deleteByIdTest(mockMvc, uri, "2")
     }
 }
