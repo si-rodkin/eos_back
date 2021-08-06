@@ -3,37 +3,41 @@ POST http://localhost:8080/auth/login
 Content-Type: application/json
 
 {
-  "username": "admin",
+  "username": "user-3-1",
   "password": "123456"
 }
 
 ###
-GET http://localhost:8080/api/secured-facilities/2
+GET http://localhost:8080/api/secured-facilities
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyLTMtMSIsImV4cCI6MTYyOTQ5MzIwMH0.4m6Oz8S9tkg6bY8GgjhV1sGCNmcurKrcdQ4QilZs9aYY5aBV5ERVrji2kSmNg5m3j9YabdkzsPDY_U-AfOTy1Q
 
 ###
 POST http://localhost:8080/api/secured-facilities
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyLTQtMSIsImV4cCI6MTYyOTQwNjgwMH0.wwy_0G1kYuPUDxBLkdbRDOVplmB5ZtuJiRVdRqEw8OjuAcTA2yMrCeZ1E4fZtOD4YtMCgMLey8qX_t2mxaOokg
 Content-Type: application/json
 
 {
   "id": 88,
-  "name": "whweh",
-  "itn": "dfefe",
-  "ownerId": 1
+  "name": "test",
+  "itn": "test",
+  "ownerId": 5
 }
 
 ###
 PUT http://localhost:8080/api/secured-facilities
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyLTQtMSIsImV4cCI6MTYyOTQwNjgwMH0.wwy_0G1kYuPUDxBLkdbRDOVplmB5ZtuJiRVdRqEw8OjuAcTA2yMrCeZ1E4fZtOD4YtMCgMLey8qX_t2mxaOokg
 Content-Type: application/json
 
 {
-  "id": 4,
+  "id": 1,
   "name": "wtf!!!1",
   "itn": "dudea1",
   "ownerId": 2
 }
 
 ###
-DELETE http://localhost:8080/api/secured-facilities/3
+DELETE http://localhost:8080/api/secured-facilities/1
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyLTQtMSIsImV4cCI6MTYyOTQwNjgwMH0.wwy_0G1kYuPUDxBLkdbRDOVplmB5ZtuJiRVdRqEw8OjuAcTA2yMrCeZ1E4fZtOD4YtMCgMLey8qX_t2mxaOokg
 
 ###
 POST http://localhost:8080/auth/login

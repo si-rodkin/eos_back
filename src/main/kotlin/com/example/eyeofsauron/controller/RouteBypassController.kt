@@ -1,10 +1,12 @@
 package com.example.eyeofsauron.controller
 
 import com.example.eyeofsauron.entity.RouteBypass
+import com.example.eyeofsauron.entity.SecuredFacility
 import com.example.eyeofsauron.service.PermissionService
 import com.example.eyeofsauron.service.RouteBypassService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import java.security.AccessControlException
 import java.util.*
 
 /**
@@ -17,38 +19,57 @@ class RouteBypassController(
     private val permission: PermissionService
 ) {
     @GetMapping
-    fun getAll() = service.getAll()
+    fun getAll(@RequestHeader authorization: String): List<RouteBypass> {
+        val all: List<RouteBypass> = service.getAll()
+        val own = mutableListOf<RouteBypass>()
 
-    @GetMapping("/{id}")
-    fun getById(@PathVariable id: Long): Optional<RouteBypass>? {
-        if (permission.hasAccess(id, service.getById(id).get()))
-            return service.getById(id)
-        return null
+        all.forEach{
+            val id: Long = it.id
+            if(permission.hasAccess(id, service.getById(id).get(), authorization))
+                own.add(it)
+        }
+        return own
     }
 
     @GetMapping("/by-route/{routeId}")
-    fun getByRoute(@PathVariable routeId: Long) = service.getByRoute(routeId)
+    fun getByRoute(@PathVariable routeId: Long, @RequestHeader authorization: String): List<RouteBypass> {
+        val all: List<RouteBypass> = service.getByRoute(routeId)
+        val own = mutableListOf<RouteBypass>()
+
+        all.forEach{
+            val id: Long = it.id
+            if(permission.hasAccess(id, service.getById(id).get(), authorization))
+                own.add(it)
+        }
+        return own
+    }
+
+    @GetMapping("/{id}")
+    fun getById(@PathVariable id: Long, @RequestHeader authorization: String): Optional<RouteBypass>? {
+        if (permission.hasAccess(id, service.getById(id).get(), authorization))
+            return service.getById(id)
+        throw AccessControlException("Unable to get element")
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody routeBypass: RouteBypass) {
-        val id: Long = routeBypass.id
-        if (permission.hasAccess(id, service.getById(id).get()))
-            service.create(routeBypass)
-    }
+    fun create(@RequestBody routeBypass: RouteBypass) = service.create(routeBypass)
+
 
     @PutMapping
-    fun update(@RequestBody routeBypass: RouteBypass) {
+    fun update(@RequestBody routeBypass: RouteBypass, @RequestHeader authorization: String) {
         val id: Long = routeBypass.id
-        if (permission.hasAccess(id, service.getById(id).get()))
+        if (permission.hasAccess(id, service.getById(id).get(), authorization))
             service.update(routeBypass)
+        else throw AccessControlException("Unable to edit element")
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteById(@PathVariable id: Long) {
-        if (permission.hasAccess(id, service.getById(id).get()))
+    fun deleteById(@PathVariable id: Long, @RequestHeader authorization: String) {
+        if (permission.hasAccess(id, service.getById(id).get(), authorization))
             service.deleteById(id)
+        else throw AccessControlException("Unable to delete element")
     }
 
     companion object {

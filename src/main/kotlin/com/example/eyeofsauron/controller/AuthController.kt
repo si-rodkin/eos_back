@@ -18,10 +18,7 @@ class AuthController(
     @PostMapping("/auth/login")
     fun auth(@RequestBody creds: Request) =
         userService.getByUsernameAndPassword(creds.username, creds.password)?.run {
-            val token: String = jwtProvider.generateToken(this.username)
-            PermissionService.currentEmployeeUsername = jwtProvider.getLoginFromToken(token).toString()
-            print(PermissionService.currentEmployeeUsername)
-            Response(token)
+            Response(jwtProvider.generateToken(this.username))
         } ?: throw RuntimeException()
 
     @GetMapping("/auth/user")
