@@ -29,6 +29,6 @@ class UserController(private val service: UserService) {
     fun deleteById(@PathVariable id: Long) = service.deleteById(id)
 
     companion object {
-        const val uri = "/api/employees"
+        const val uri = "/api/users"
     }
 }

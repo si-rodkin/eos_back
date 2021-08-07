@@ -18,17 +18,11 @@ class SecuredFacilityController(
     private val permission: PermissionService
 ) {
     @GetMapping
-    fun getAll(@RequestHeader authorization: String): List<SecuredFacility> {
-        val all: List<SecuredFacility> = service.getAll()
-        val own = mutableListOf<SecuredFacility>()
-
-        all.forEach{
-            val id: Long = it.id
-            if(permission.hasAccess(id, service.getById(id).get(), authorization))
-                own.add(it)
-        }
-        return own
-    }
+    fun getAll(@RequestHeader authorization: String): List<SecuredFacility> =
+        service.getAll()
+            .filter { item ->
+                permission.hasAccess(item.id, service.getById(item.id).get(), authorization)
+            }
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Long, @RequestHeader authorization: String): Optional<SecuredFacility>? {

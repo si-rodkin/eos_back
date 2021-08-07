@@ -177,7 +177,7 @@ insert into employee (id, username, password, first_name, last_name, patr_name, 
 alter table route_bypass alter column day type text;
 --rollback alter table route_bypass alter column day type integer USING (day::integer);
 
---changeset DudeWithNuke:feature/security
+--changeset DudeWithNuke:feature/security_subordinate_leader
 --Комментарий: Вставка линкующей таблицы для Employee
 create table subordinate_leader
 (
@@ -187,37 +187,37 @@ create table subordinate_leader
 );
 --rollback drop table leader_subordinate
 
---changeset DudeWithNuke:feature/security
+--changeset DudeWithNuke:feature/security_secured_facility-ownerId
 --Комментарий: В сущность Охраняемый объект добавлено поле ID владельца
 alter table secured_facility
     add column owner_id bigint references employee;
 --rollback alter table secured_facility drop column owner_id;
 
---changeset DudeWithNuke:feature/security
+--changeset DudeWithNuke:feature/security_route-ownerId
 --Комментарий: В сущность Маршрут добавлено поле ID владельца
 alter table route
     add column owner_id bigint references employee;
 --rollback alter table route drop column owner_id;
 
---changeset DudeWithNuke:feature/security
+--changeset DudeWithNuke:feature/security_route_bypass-ownerId
 --Комментарий: В сущность Обход маршрута добавлено поле ID владельца
 alter table route_bypass
     add column owner_id bigint references employee;
 --rollback alter table route_bypass drop column owner_id;
 
---changeset DudeWithNuke:feature/security
+--changeset DudeWithNuke:feature/security_marker-ownerId
 --Комментарий: В сущность Маркер добавлено поле ID владельца
 alter table marker
     add column owner_id bigint references employee;
 --rollback alter table marker drop column owner_id;
 
---changeset DudeWithNuke:feature/security
+--changeset DudeWithNuke:feature/security_marker_reader-ownerId
 --Комментарий: В сущность Cчитыватель маркера добавлено поле ID владельца
 alter table marker_reader
     add column owner_id bigint references employee;
 --rollback alter table marker_reader drop column owner_id;
 
---changeset DudeWithNuke:feature/security
+--changeset DudeWithNuke:feature/security_check_point-ownerId
 --Комментарий: В сущность Контрольная точка добавлено поле ID владельца
 alter table check_point
     add column owner_id bigint references employee;
