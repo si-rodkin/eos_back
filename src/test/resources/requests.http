@@ -3,13 +3,13 @@ POST http://localhost:8080/auth/login
 Content-Type: application/json
 
 {
-  "username": "user-3-1",
+  "username": "user-2",
   "password": "123456"
 }
 
 ###
 GET http://localhost:8080/api/secured-facilities
-Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyLTMtMSIsImV4cCI6MTYyOTQ5MzIwMH0.4m6Oz8S9tkg6bY8GgjhV1sGCNmcurKrcdQ4QilZs9aYY5aBV5ERVrji2kSmNg5m3j9YabdkzsPDY_U-AfOTy1Q
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyLTIiLCJleHAiOjE2Mjk2NjYwMDB9.wlokZDKhF_3gHo7HZoh9pyTPlgLBMZr3TiJdPTHrt1XNgo2XfVHtJdMlqeJdeb1gEY8GlgFPqWP-2RtlmGQjsA
 
 ###
 POST http://localhost:8080/api/secured-facilities

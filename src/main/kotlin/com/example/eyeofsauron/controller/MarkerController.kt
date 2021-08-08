@@ -19,30 +19,19 @@ class MarkerController(
     private val permission: PermissionService
 ) {
     @GetMapping
-    fun getAll(@RequestHeader authorization: String): List<Marker> {
-        val all: List<Marker> = service.getAll()
-        val own = mutableListOf<Marker>()
-
-        all.forEach{
-            val id: Long? = it.id
-            if(id?.let { it1 -> permission.hasAccess(it1, service.getById(id).get(), authorization) } == true)
-                own.add(it)
-        }
-        return own
+    fun getAll(@RequestHeader authorization: String): List<Marker> =
+    service.getAll()
+        .filter { item ->
+            item.id?.let { permission.hasAccess(it, service.getById(item.id).get(), authorization) } == true
     }
+
 
     @GetMapping("/free-or/{id}")
-    fun getFreeOrRouteMarkers(@PathVariable id: Long, @RequestHeader authorization: String): List<Marker> {
-        val all: List<Marker> = service.getFreeOrRouteMarkers(id)
-        val own = mutableListOf<Marker>()
-
-        all.forEach{
-            val id: Long? = it.id
-            if(id?.let { it1 -> permission.hasAccess(it1, service.getById(id).get(), authorization) } == true)
-                own.add(it)
-        }
-        return own
-    }
+    fun getFreeOrRouteMarkers(@PathVariable id: Long, @RequestHeader authorization: String): List<Marker> =
+        service.getFreeOrRouteMarkers(id)
+            .filter { item ->
+                item.id?.let { permission.hasAccess(it, service.getById(item.id).get(), authorization) } == true
+            }
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Long, @RequestHeader authorization: String): Optional<Marker>? {

@@ -19,30 +19,18 @@ class RouteBypassController(
     private val permission: PermissionService
 ) {
     @GetMapping
-    fun getAll(@RequestHeader authorization: String): List<RouteBypass> {
-        val all: List<RouteBypass> = service.getAll()
-        val own = mutableListOf<RouteBypass>()
-
-        all.forEach{
-            val id: Long = it.id
-            if(permission.hasAccess(id, service.getById(id).get(), authorization))
-                own.add(it)
-        }
-        return own
-    }
+    fun getAll(@RequestHeader authorization: String): List<RouteBypass> =
+        service.getAll()
+            .filter { item ->
+                permission.hasAccess(item.id, service.getById(item.id).get(), authorization)
+            }
 
     @GetMapping("/by-route/{routeId}")
-    fun getByRoute(@PathVariable routeId: Long, @RequestHeader authorization: String): List<RouteBypass> {
-        val all: List<RouteBypass> = service.getByRoute(routeId)
-        val own = mutableListOf<RouteBypass>()
-
-        all.forEach{
-            val id: Long = it.id
-            if(permission.hasAccess(id, service.getById(id).get(), authorization))
-                own.add(it)
-        }
-        return own
-    }
+    fun getByRoute(@PathVariable routeId: Long, @RequestHeader authorization: String): List<RouteBypass> =
+        service.getByRoute(routeId)
+            .filter { item ->
+                permission.hasAccess(item.id, service.getById(item.id).get(), authorization)
+            }
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Long, @RequestHeader authorization: String): Optional<RouteBypass>? {

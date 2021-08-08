@@ -19,30 +19,18 @@ class RouteController(
     private val permission: PermissionService
 ) {
     @GetMapping
-    fun getAll(@RequestHeader authorization: String): List<Route> {
-        val all: List<Route> = service.getAll()
-        val own = mutableListOf<Route>()
-
-        all.forEach{
-            val id: Long = it.id
-            if(permission.hasAccess(id, service.getById(id).get(), authorization))
-                own.add(it)
-        }
-        return own
-    }
+    fun getAll(@RequestHeader authorization: String): List<Route> =
+        service.getAll()
+            .filter { item ->
+                permission.hasAccess(item.id, service.getById(item.id).get(), authorization)
+            }
 
     @GetMapping("/by-secured-facility/{securedFacilityId}")
-    fun getByObject(@PathVariable securedFacilityId: Long, @RequestHeader authorization: String): List<Route> {
-        val all: List<Route> = service.getBySecuredFacilityId(securedFacilityId)
-        val own = mutableListOf<Route>()
-
-        all.forEach{
-            val id: Long = it.id
-            if(permission.hasAccess(id, service.getById(id).get(), authorization))
-                own.add(it)
-        }
-        return own
-    }
+    fun getByObject(@PathVariable securedFacilityId: Long, @RequestHeader authorization: String): List<Route> =
+        service.getBySecuredFacilityId(securedFacilityId)
+            .filter { item ->
+                permission.hasAccess(item.id, service.getById(item.id).get(), authorization)
+            }
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Long, @RequestHeader authorization: String): Optional<Route>? {

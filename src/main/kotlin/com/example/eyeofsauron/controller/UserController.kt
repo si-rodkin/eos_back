@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping(UserController.uri)
 class UserController(private val service: UserService) {
     @GetMapping
-    fun getAllEmployees(@RequestParam("uid", required = false) uid: Long?) = service.getAll(uid)
+    fun getAllUsers(@RequestParam("uid", required = false) uid: Long?) = service.getAll(uid)
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Long) = service.getById(id)

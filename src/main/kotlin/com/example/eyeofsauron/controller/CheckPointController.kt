@@ -19,30 +19,17 @@ class CheckPointController(
     private val permission: PermissionService
 ) {
     @GetMapping
-    fun getAll(@RequestHeader authorization: String): List<CheckPoint> {
-        val all: List<CheckPoint> = service.getAll()
-        val own = mutableListOf<CheckPoint>()
-
-        all.forEach{
-            val id: Long = it.id
-            if(permission.hasAccess(id, service.getById(id).get(), authorization))
-                own.add(it)
+    fun getAll(@RequestHeader authorization: String): List<CheckPoint> = service.getAll()
+        .filter { item ->
+            permission.hasAccess(item.id, service.getById(item.id).get(), authorization)
         }
-        return own
-    }
 
     @GetMapping("/by-routebypass/{id}")
-    fun getByBypass(@PathVariable id: Long, @RequestHeader authorization: String): List<CheckPoint> {
-        val all: List<CheckPoint> = service.getByBypass(listOf(id))
-        val own = mutableListOf<CheckPoint>()
-
-        all.forEach{
-            val id: Long = it.id
-            if(permission.hasAccess(id, service.getById(id).get(), authorization))
-                own.add(it)
-        }
-        return own
-    }
+    fun getByBypass(@PathVariable id: Long, @RequestHeader authorization: String): List<CheckPoint> =
+        service.getByBypass(listOf(id))
+            .filter { item ->
+                permission.hasAccess(item.id, service.getById(item.id).get(), authorization)
+            }
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Long, @RequestHeader authorization: String): Optional<CheckPoint>? {
