@@ -19,14 +19,11 @@ class SecuredFacilityController(
 ) {
     @GetMapping
     fun getAll(@RequestHeader authorization: String): List<SecuredFacility> =
-        service.getAll()
-            .filter { item ->
-                permission.hasAccess(item.id, service.getById(item.id).get(), authorization)
-            }
+        service.getAll().filter { item -> permission.hasAccess(item, authorization) }
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Long, @RequestHeader authorization: String): Optional<SecuredFacility>? {
-        if (permission.hasAccess(id, service.getById(id).get(), authorization))
+        if (permission.hasAccess(service.getById(id).get(), authorization))
             return service.getById(id)
         throw AccessControlException("Unable to get element")
     }
@@ -37,8 +34,7 @@ class SecuredFacilityController(
 
     @PutMapping
     fun update(@RequestBody securedFacility: SecuredFacility, @RequestHeader authorization: String) {
-        val id: Long = securedFacility.id
-        if (permission.hasAccess(id, service.getById(id).get(), authorization))
+        if (permission.hasAccess(securedFacility, authorization))
             service.update(securedFacility)
         else throw AccessControlException("Unable to edit element")
     }
@@ -46,7 +42,7 @@ class SecuredFacilityController(
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteById(@PathVariable id: Long, @RequestHeader authorization: String) {
-        if (permission.hasAccess(id, service.getById(id).get(), authorization))
+        if (permission.hasAccess(service.getById(id).get(), authorization))
             service.deleteById(id)
         else throw AccessControlException("Unable to delete element")
     }

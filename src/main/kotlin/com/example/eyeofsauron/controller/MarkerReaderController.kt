@@ -21,12 +21,12 @@ class MarkerReaderController(
     fun getAll(@RequestHeader authorization: String): List<MarkerReader> =
         service.getAll()
             .filter { item ->
-                permission.hasAccess(item.id, service.getById(item.id).get(), authorization)
+                permission.hasAccess(service.getById(item.id).get(), authorization)
             }
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Long, @RequestHeader authorization: String): Optional<MarkerReader>? {
-        if (permission.hasAccess(id, service.getById(id).get(), authorization))
+        if (permission.hasAccess(service.getById(id).get(), authorization))
             return service.getById(id)
         throw AccessControlException("Unable to get element")
     }
@@ -38,7 +38,7 @@ class MarkerReaderController(
     @PutMapping
     fun update(@RequestBody markerReader: MarkerReader, @RequestHeader authorization: String) {
         val id: Long = markerReader.id
-        if (permission.hasAccess(id, service.getById(id).get(), authorization))
+        if (permission.hasAccess(service.getById(id).get(), authorization))
             service.update(markerReader)
         else throw AccessControlException("Unable to edit element")
     }
@@ -46,7 +46,7 @@ class MarkerReaderController(
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteById(@PathVariable id: Long, @RequestHeader authorization: String) {
-        if (permission.hasAccess(id, service.getById(id).get(), authorization))
+        if (permission.hasAccess(service.getById(id).get(), authorization))
             service.deleteById(id)
         else throw AccessControlException("Unable to delete element")
     }

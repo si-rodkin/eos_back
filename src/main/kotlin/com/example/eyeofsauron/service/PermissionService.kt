@@ -12,7 +12,7 @@ class PermissionService(
     private val userService: UserService,
     private val jwtProvider: JwtProvider
 ) {
-    fun hasAccess(objectId: Long, entity: Ownerable, token: String): Boolean {
+    fun hasAccess(entity: Ownerable, token: String): Boolean {
         var user: User
 
         try {

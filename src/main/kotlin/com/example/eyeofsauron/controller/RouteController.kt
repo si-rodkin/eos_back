@@ -20,21 +20,15 @@ class RouteController(
 ) {
     @GetMapping
     fun getAll(@RequestHeader authorization: String): List<Route> =
-        service.getAll()
-            .filter { item ->
-                permission.hasAccess(item.id, service.getById(item.id).get(), authorization)
-            }
+        service.getAll().filter { item -> permission.hasAccess(item, authorization) }
 
     @GetMapping("/by-secured-facility/{securedFacilityId}")
     fun getByObject(@PathVariable securedFacilityId: Long, @RequestHeader authorization: String): List<Route> =
-        service.getBySecuredFacilityId(securedFacilityId)
-            .filter { item ->
-                permission.hasAccess(item.id, service.getById(item.id).get(), authorization)
-            }
+        service.getBySecuredFacilityId(securedFacilityId).filter { item -> permission.hasAccess(item, authorization) }
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Long, @RequestHeader authorization: String): Optional<Route>? {
-        if (permission.hasAccess(id, service.getById(id).get(), authorization))
+        if (permission.hasAccess(service.getById(id).get(), authorization))
             return service.getById(id)
         throw AccessControlException("Unable to get element")
     }
@@ -43,11 +37,9 @@ class RouteController(
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@RequestBody route: Route) = service.create(route)
 
-
     @PutMapping
     fun update(@RequestBody route: Route, @RequestHeader authorization: String) {
-        val id: Long = route.id
-        if (permission.hasAccess(id, service.getById(id).get(), authorization))
+        if (permission.hasAccess(route, authorization))
             service.update(route)
         else throw AccessControlException("Unable to edit element")
     }
@@ -55,7 +47,7 @@ class RouteController(
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteById(@PathVariable id: Long, @RequestHeader authorization: String) {
-        if (permission.hasAccess(id, service.getById(id).get(), authorization))
+        if (permission.hasAccess(service.getById(id).get(), authorization))
             service.deleteById(id)
         else throw AccessControlException("Unable to delete element")
     }

@@ -14,47 +14,22 @@ import java.util.*
  */
 @RestController
 @RequestMapping(MarkerController.uri)
-class MarkerController(
-    private val service: MarkerService,
-    private val permission: PermissionService
-) {
+class MarkerController(private val service: MarkerService) {
     @GetMapping
-    fun getAll(@RequestHeader authorization: String): List<Marker> =
-    service.getAll()
-        .filter { item ->
-            item.id?.let { permission.hasAccess(it, service.getById(item.id).get(), authorization) } == true
-    }
-
+    fun getAll(): List<Marker> = service.getAll()
 
     @GetMapping("/free-or/{id}")
-    fun getFreeOrRouteMarkers(@PathVariable id: Long, @RequestHeader authorization: String): List<Marker> =
-        service.getFreeOrRouteMarkers(id)
-            .filter { item ->
-                item.id?.let { permission.hasAccess(it, service.getById(item.id).get(), authorization) } == true
-            }
+    fun getFreeOrRouteMarkers(@PathVariable id: Long): List<Marker> = service.getFreeOrRouteMarkers(id)
 
     @GetMapping("/{id}")
-    fun getById(@PathVariable id: Long, @RequestHeader authorization: String): Optional<Marker>? {
-        if (permission.hasAccess(id, service.getById(id).get(), authorization))
-            return service.getById(id)
-        throw AccessControlException("Unable to get element")
-    }
+    fun getById(@PathVariable id: Long) = service.getById(id)
 
     @PutMapping
-    fun update(@RequestBody marker: Marker, @RequestHeader authorization: String) {
-        val id: Long? = marker.id
-        if (id?.let { permission.hasAccess(it, service.getById(id).get(), authorization) } == true)
-            service.update(marker)
-        else throw AccessControlException("Unable to edit element")
-    }
+    fun update(@RequestBody marker: Marker) = service.update(marker)
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteById(@PathVariable id: Long, @RequestHeader authorization: String) {
-        if (permission.hasAccess(id, service.getById(id).get(), authorization))
-            service.deleteById(id)
-        else throw AccessControlException("Unable to delete element")
-    }
+    fun deleteById(@PathVariable id: Long) = service.deleteById(id)
 
     companion object {
         const val uri = "/api/markers"
